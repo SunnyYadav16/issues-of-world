@@ -1575,7 +1575,7 @@ With the dev server running, use the Playwright tools: navigate to `http://local
 Expected: `projection: "globe"`, `visibleBoundaryLayers: 0`, `hasStateSource: true`, `delhiFeatures: [7]` (all four seen during planning at a 1280×800 viewport). If `delhiFeatures` is empty, zoom in once (`m.setZoom(4)`) and retry: the point may be off-screen. Also confirm the canvas fills the window: `document.querySelector("canvas.maplibregl-canvas").getBoundingClientRect().height` equals the window height. A value of `300` means the CSS in Step 2 was not applied.
 
 Then click that pixel (`page.mouse.click(x, y)` via the run-code tool with `delhiPixel`) and evaluate `window.__map.getFeatureState({source:"in_states",sourceLayer:"SOI_States",id:7})`.
-Expected: `{ "selected": true, ... }`. Hover over another state first and confirm its fill gets lighter.
+Expected: `{ "selected": true, ... }`. Hover over another state first and confirm its fill gets more opaque (0.5 vs 0.25).
 
 - [ ] **Step 6: Eyeball the disputed regions and the basemap labels (plan §16, risk in §13)**
 
