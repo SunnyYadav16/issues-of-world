@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# issues-of-world
+.env
+pipeline/var/
+apps/web/public/data/
+tiles/*.pmtiles
+tiles/*.parquet
+/issues-of-world_ Project Plan*.html
+.playwright-mcp/
+# the Python template's `lib/` rule would otherwise hide the web app's src/lib (plan §10)
+!apps/web/src/lib/
