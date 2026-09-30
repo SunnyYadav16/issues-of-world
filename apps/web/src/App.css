@@ -200,6 +200,7 @@
   transition: background-color 0.14s ease-out;
 }
 .list-pop li button[aria-current="true"] { color: var(--amber); }
+.list-national { border-bottom: 1px solid rgb(255 255 255 / 0.12); margin-bottom: 4px; padding-bottom: 4px; }
 .list-count { color: var(--ink-3); font-variant-numeric: tabular-nums; }
 @media (hover: hover) and (pointer: fine) { .list-pop li button:hover { background: rgb(255 255 255 / 0.07); } }
 .list-pop li button:active { background: rgb(255 255 255 / 0.1); }

@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
-import { type StateSummary, type Summary, loadSummary } from "./lib/data";
-import { MapView } from "./map/MapView";
+import { NATIONAL_LGD, type StateSummary, type Summary, loadSummary, noNational } from "./lib/data";
 import { Starfield } from "./map/Starfield";
 import { StateList } from "./panel/StateList";
 import { StatePanel } from "./panel/StatePanel";
 
+// maplibre-gl is most of the bundle; loading it lazily lets the shell and starfield paint first.
+const MapView = lazy(() => import("./map/MapView").then((m) => ({ default: m.MapView })));
+
 export default function App() {
-  const [summary, setSummary] = useState<Summary>({ states: [], generatedAt: "" });
+  const [summary, setSummary] = useState<Summary>({ states: [], national: noNational, generatedAt: "" });
   const [selected, setSelected] = useState<number | null>(null);
   // Keep the last state mounted so the panel can animate out instead of vanishing.
   const [display, setDisplay] = useState<StateSummary | null>(null);
@@ -19,7 +21,7 @@ export default function App() {
     loadSummary().then(setSummary).catch(console.error);
   }, []);
 
-  const current = summary.states.find((s) => s.lgd === selected) ?? null;
+  const current = selected === NATIONAL_LGD ? summary.national : (summary.states.find((s) => s.lgd === selected) ?? null);
   if (current && current !== display) setDisplay(current);
 
   const names = useMemo(() => Object.fromEntries(summary.states.map((s) => [s.lgd, s.name])), [summary]);
@@ -47,12 +49,15 @@ export default function App() {
         <p>Click a state to read what is being reported there.</p>
         <StateList
           states={summary.states}
+          national={summary.national}
           selected={selected}
           buttonRef={listButton}
           onPick={(lgd) => { setViaList(true); setSelected(lgd); }}
         />
       </header>
-      <MapView selected={selected} lit={lit} names={names} onSelect={(lgd) => { setViaList(false); setSelected(lgd); }} />
+      <Suspense fallback={null}>
+        <MapView selected={selected === NATIONAL_LGD ? null : selected} lit={lit} names={names} onSelect={(lgd) => { setViaList(false); setSelected(lgd); }} />
+      </Suspense>
       {display && <StatePanel state={display} open={current !== null} focusOnOpen={viaList} updatedAt={summary.generatedAt} onClose={() => closeRef.current()} />}
       <div className="sr-only" role="status">
         {current ? `${current.name} selected` : ""}

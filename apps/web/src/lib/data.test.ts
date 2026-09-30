@@ -29,10 +29,22 @@ test("safeHref only lets http(s) links through", () => {
   expect(safeHref("https://a.example/x")).toBe("https://a.example/x");
 });
 
-test("loadSummary returns states and the export time", async () => {
-  stub({ schema_version: 1, generated_at: "2026-09-29T02:19:00+00:00", states: [{ iso: "MH", lgd: 27, name: "Maharashtra", count: 3 }] });
+test("loadSummary returns states, the national list and the export time", async () => {
+  stub({
+    schema_version: 1,
+    generated_at: "2026-09-29T02:19:00+00:00",
+    states: [{ iso: "MH", lgd: 27, name: "Maharashtra", count: 3 }],
+    national: { count: 5 },
+  });
   expect(await loadSummary()).toEqual({
     generatedAt: "2026-09-29T02:19:00+00:00",
     states: [{ iso: "MH", lgd: 27, name: "Maharashtra", count: 3 }],
+    national: { iso: "national", lgd: 0, name: "India: national", count: 5 },
   });
+});
+
+test("the national list is read from its own folder", async () => {
+  stub({ schema_version: 1, issues: [] });
+  await loadCards("national");
+  expect(fetch).toHaveBeenCalledWith("/data/in/national/issues.json");
 });

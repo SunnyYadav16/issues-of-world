@@ -23,4 +23,6 @@ def main() -> None:
         print(f"stored {added} new items")
     else:
         counts = export(store.read_all(), args.out, now)
-        print(f"exported {sum(counts.values())} cards across {sum(1 for c in counts.values() if c)} states")
+        national = counts.pop("national")
+        lit = sum(1 for c in counts.values() if c)
+        print(f"exported {sum(counts.values())} state cards across {lit} states, {national} national")

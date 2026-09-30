@@ -1,0 +1,46 @@
+# data/in/national_terms.yaml
+# Words that make a headline national when it names no state place (D-023, IOW-047): institutions and stories that
+# belong to no one state even though GDELT tags them to Delhi or Mumbai, where those bodies sit. Matched as whole
+# words, case-insensitive, so leave out short acronyms that are also names or words ("NIA", "ED", "SC").
+# A place named in the headline always wins over this list ("Supreme Court stays Maharashtra order" stays in MH).
+- India
+- Supreme Court
+- Parliament
+- Lok Sabha
+- Rajya Sabha
+- Union Cabinet
+- Union Minister
+- Union Budget
+- Union Government
+- Prime Minister
+- Modi
+- President Murmu
+- Election Commission
+- ECI
+- CEC
+- NITI Aayog
+- CBI
+- ISRO
+- GST
+- RBI
+- Reserve Bank
+- SEBI
+- Sensex
+- Nifty
+- Adani
+- Ambani
+- Reliance
+- Tata Sons
+- Tata Trusts
+- Infosys
+- Air India
+- BRICS
+- UNGA
+- UAE
+- FTA
+- envoy
+- High Commissioner
+- BCCI
+- IPL
+- Team India
+- Asian Games

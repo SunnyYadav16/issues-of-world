@@ -4,13 +4,14 @@ import type { StateSummary } from "../lib/data";
 
 type Props = {
   states: StateSummary[];
+  national: StateSummary;
   selected: number | null;
   onPick: (lgd: number) => void;
   buttonRef: RefObject<HTMLButtonElement | null>;
 };
 
 /** Keyboard and screen-reader route to every state; the map canvas alone cannot offer one. */
-export function StateList({ states, selected, onPick, buttonRef }: Props) {
+export function StateList({ states, national, selected, onPick, buttonRef }: Props) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -50,8 +51,8 @@ export function StateList({ states, selected, onPick, buttonRef }: Props) {
         }}
       >
         <ul>
-          {sorted.map((s) => (
-            <li key={s.lgd}>
+          {[national, ...sorted].map((s) => (
+            <li key={s.lgd} className={s === national ? "list-national" : undefined}>
               <button
                 type="button"
                 aria-current={s.lgd === selected}
