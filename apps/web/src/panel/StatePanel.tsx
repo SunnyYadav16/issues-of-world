@@ -1,6 +1,6 @@
 import { ArrowUpRight, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
-import { type Card, type StateSummary, loadCards, safeHref } from "../lib/data";
+import { type Card, NATIONAL_LGD, type StateSummary, loadCards, safeHref } from "../lib/data";
 import { ago } from "../lib/time";
 
 type Props = { state: StateSummary; open: boolean; focusOnOpen: boolean; updatedAt: string; onClose: () => void };
@@ -28,6 +28,7 @@ export function StatePanel({ state, open, focusOnOpen, updatedAt, onClose }: Pro
   // Ignore a result that belongs to the previously shown state while the new one loads.
   const cards = loaded?.iso === state.iso ? loaded.cards : null;
   const count = Array.isArray(cards) ? cards.length : null;
+  const national = state.lgd === NATIONAL_LGD;
 
   return (
     <aside className="panel" data-open={open} inert={!open} aria-label={`${state.name} headlines`}>
@@ -64,7 +65,11 @@ export function StatePanel({ state, open, focusOnOpen, updatedAt, onClose }: Pro
         {Array.isArray(cards) && cards.length === 0 && (
           <div className="notice">
             <strong>No stories for {state.name} yet.</strong>
-            <span>Nothing in the latest fetch was placed here. Automatic placement sometimes files a state's stories under its neighbour.</span>
+            <span>
+              {national
+                ? "Nothing in the latest fetch was national."
+                : "Nothing in the latest fetch was placed here. Automatic placement sometimes files a state's stories under its neighbour."}
+            </span>
           </div>
         )}
         {Array.isArray(cards) && cards.length > 0 && (
@@ -88,7 +93,11 @@ export function StatePanel({ state, open, focusOnOpen, updatedAt, onClose }: Pro
         )}
       </div>
 
-      <footer className="panel-foot">Placement is automatic, from GDELT location tags, and can be wrong.</footer>
+      <footer className="panel-foot">
+        {national
+          ? "Stories land here when the headline names no state, or names several. That is a keyword rule and can be wrong."
+          : "Placement is automatic, from GDELT location tags and place names in the headline, and can be wrong."}
+      </footer>
     </aside>
   );
 }

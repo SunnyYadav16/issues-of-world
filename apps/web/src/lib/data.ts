@@ -6,6 +6,7 @@ export type Card = {
   outlet: string;
   published_at: string;
   url: string;
+  scope: "national" | "state" | "local";
   origin_count: number;
 };
 
@@ -22,11 +23,20 @@ async function getJson(path: string): Promise<Record<string, unknown>> {
   return doc;
 }
 
-export type Summary = { states: StateSummary[]; generatedAt: string };
+/** Stories that belong to no one state. Shaped like a state so the list and panel treat it as one; it has no map shape. */
+export const NATIONAL_LGD = 0;
+export const noNational: StateSummary = { iso: "national", lgd: NATIONAL_LGD, name: "India: national", count: 0 };
+
+export type Summary = { states: StateSummary[]; national: StateSummary; generatedAt: string };
 
 export async function loadSummary(): Promise<Summary> {
   const doc = await getJson("in/summary.json");
-  return { states: doc.states as StateSummary[], generatedAt: doc.generated_at as string };
+  const { count } = doc.national as { count: number };
+  return {
+    states: doc.states as StateSummary[],
+    national: { ...noNational, count },
+    generatedAt: doc.generated_at as string,
+  };
 }
 
 export async function loadCards(iso: string): Promise<Card[]> {
