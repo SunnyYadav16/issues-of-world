@@ -22,8 +22,11 @@ async function getJson(path: string): Promise<Record<string, unknown>> {
   return doc;
 }
 
-export async function loadSummary(): Promise<StateSummary[]> {
-  return (await getJson("in/summary.json")).states as StateSummary[];
+export type Summary = { states: StateSummary[]; generatedAt: string };
+
+export async function loadSummary(): Promise<Summary> {
+  const doc = await getJson("in/summary.json");
+  return { states: doc.states as StateSummary[], generatedAt: doc.generated_at as string };
 }
 
 export async function loadCards(iso: string): Promise<Card[]> {

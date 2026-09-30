@@ -1,0 +1,9 @@
+# data/sources.yaml
+# License registry (plan §7.3, IOW-011). The exporter takes display_policy from HERE, never from the plugin,
+# so a plugin cannot loosen its own display rules by mistake. A source missing from this file is not exported.
+# tos_url / tos_checked_at are left out until someone has actually read each source's terms (IOW-011).
+- id: gdelt
+  tier: 3
+  license_id: gdelt-terms
+  display_policy: headline_link
+  attribution: GDELT Project
