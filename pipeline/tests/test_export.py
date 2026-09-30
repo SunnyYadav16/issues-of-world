@@ -30,6 +30,7 @@ def test_writes_summary_and_one_file_per_state(tmp_path):
     by = {s["iso"]: s for s in summary["states"]}
     assert by["MH"]["count"] == 1 and by["DL"]["count"] == 1 and by["KL"]["count"] == 0
     assert by["MH"]["lgd"] == 27
+    assert by["MH"]["aliases"] == ["Bombay"]  # the web search matches these
     assert counts["MH"] == 1
     assert len(list((tmp_path / "data" / "in").glob("*/issues.json"))) == 37  # 36 states + national
     assert read(tmp_path, "kl", "issues.json")["issues"] == []  # empty state still has a file
