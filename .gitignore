@@ -223,9 +223,22 @@ pipeline/var/
 apps/web/public/data/
 tiles/*.pmtiles
 tiles/*.parquet
-/issues-of-world_ Project Plan*.html
+/issues-of-world-Project-Plan*.html
+/issues-of-world-Complete-Task-List*.html
 .playwright-mcp/
 # the Python template's `lib/` rule would otherwise hide the web app's src/lib (plan §10)
 !apps/web/src/lib/
 .claude/worktrees/
 .wrangler/
+
+# secrets / credentials (keep the *.example templates tracked)
+.env.*
+!.env.example
+.dev.vars
+*.pem
+*.key
+
+# OS / tooling noise
+.DS_Store
+node_modules/
+.impeccable/review/
