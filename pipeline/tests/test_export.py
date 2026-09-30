@@ -9,11 +9,19 @@ from iow.stages.export import card, export, outlet
 NOW = datetime(2026, 9, 29, tzinfo=timezone.utc)
 
 
-def item(url="https://www.thehindu.com/a", hint="IN16", policy="headline_link", snippet=None, age_h=1,
-         headline="Headline"):
+def item(
+    url="https://www.thehindu.com/a", hint="IN16", policy="headline_link", snippet=None, age_h=1, headline="Headline"
+):
     return RawItem(
-        source_id="gdelt", url=url, headline=headline, published_at=NOW - timedelta(hours=age_h),
-        snippet=snippet, license_id="x", display_policy=policy, attribution="a", geo_hint=hint,
+        source_id="gdelt",
+        url=url,
+        headline=headline,
+        published_at=NOW - timedelta(hours=age_h),
+        snippet=snippet,
+        license_id="x",
+        display_policy=policy,
+        attribution="a",
+        geo_hint=hint,
     )
 
 
@@ -54,7 +62,13 @@ def test_registry_beats_the_plugin_claim(tmp_path):
     # The plugin says full_redistribution; sources.yaml says gdelt is headline + link only.
     export([item(policy="full_redistribution", snippet="secret words")], tmp_path, NOW)
     assert set(read(tmp_path, "mh", "issues.json")["issues"][0]) == {
-        "id", "headline", "outlet", "published_at", "url", "scope", "origin_count",
+        "id",
+        "headline",
+        "outlet",
+        "published_at",
+        "url",
+        "scope",
+        "origin_count",
     }
 
 
@@ -70,8 +84,15 @@ def test_unregistered_source_is_dropped(tmp_path):
 
 
 def test_duplicate_url_once_and_newest_first(tmp_path):
-    export([item("https://a.example/old", age_h=5), item("https://a.example/new", age_h=1),
-            item("https://a.example/new", age_h=1)], tmp_path, NOW)
+    export(
+        [
+            item("https://a.example/old", age_h=5),
+            item("https://a.example/new", age_h=1),
+            item("https://a.example/new", age_h=1),
+        ],
+        tmp_path,
+        NOW,
+    )
     urls = [c["url"] for c in read(tmp_path, "mh", "issues.json")["issues"]]
     assert urls == ["https://a.example/new", "https://a.example/old"]
 

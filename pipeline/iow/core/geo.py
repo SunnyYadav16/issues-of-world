@@ -5,6 +5,7 @@ Maharashtra or Delhi, and Telangana lands in Andhra Pradesh (D-016). The headlin
 that are safe to trust (geo_aliases) and a list of national terms (national_terms.yaml) before falling back to
 GDELT's code.
 """
+
 import re
 from functools import cache
 from pathlib import Path

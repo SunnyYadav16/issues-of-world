@@ -1,6 +1,7 @@
 # pipeline/iow/store.py
 """Raw-item store for the first slice: a JSONL file deduped by URL.
 ponytail: replaced by the raw_items table when Postgres arrives (IOW-005)."""
+
 from collections.abc import Iterable
 from pathlib import Path
 

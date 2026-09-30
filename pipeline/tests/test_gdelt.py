@@ -35,9 +35,7 @@ def test_indian_state_article_kept():
 
 def test_precise_publish_time_preferred():
     extras = "<PAGE_TITLE>T</PAGE_TITLE><PAGE_PRECISEPUBTIMESTAMP>20260928151700</PAGE_PRECISEPUBTIMESTAMP>"
-    assert parse_row(row([MUMBAI], extras=extras)).published_at == datetime(
-        2026, 9, 28, 15, 17, tzinfo=timezone.utc
-    )
+    assert parse_row(row([MUMBAI], extras=extras)).published_at == datetime(2026, 9, 28, 15, 17, tzinfo=timezone.utc)
 
 
 def test_foreign_primary_location_dropped():
