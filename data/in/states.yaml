@@ -47,7 +47,7 @@
 - {iso: KL, lgd: 32, name: Kerala, type: state, capital: Thiruvananthapuram, search_aliases: [Keralam], geo_aliases: [Kerala, Keralam, Thiruvananthapuram, Kochi, Kozhikode, Thrissur], gdelt_fips: [IN13]}
 - {iso: TN, lgd: 33, name: Tamil Nadu, type: state, capital: Chennai, search_aliases: [Madras], geo_aliases: [Tamil Nadu, Chennai, Coimbatore, Madurai, Tiruchirappalli], gdelt_fips: [IN25]}
 - {iso: PY, lgd: 34, name: Puducherry, type: ut, capital: Puducherry, search_aliases: [Pondicherry], geo_aliases: [Puducherry, Pondicherry], gdelt_fips: [IN22]}
-- {iso: AN, lgd: 35, name: Andaman and Nicobar Islands, type: ut, capital: Port Blair, search_aliases: [Andaman & Nicobar, A&N], geo_aliases: [Andaman and Nicobar, Andaman & Nicobar, Port Blair], gdelt_fips: [IN01]}
+- {iso: AN, lgd: 35, name: Andaman and Nicobar Islands, type: ut, capital: Port Blair, search_aliases: [Andaman and Nicobar, Andaman & Nicobar, A&N], geo_aliases: [Andaman and Nicobar, Andaman & Nicobar, Port Blair], gdelt_fips: [IN01]}
 - {iso: TS, lgd: 36, name: Telangana, type: state, capital: Hyderabad, search_aliases: [], geo_aliases: [Telangana, Hyderabad, Secunderabad, Warangal], gdelt_fips: []}
 - {iso: LA, lgd: 37, name: Ladakh, type: ut, capital: Leh, search_aliases: [], geo_aliases: [Ladakh, Leh, Kargil], gdelt_fips: []}
 - {iso: DH, lgd: 38, name: Dadra and Nagar Haveli and Daman and Diu, type: ut, capital: Daman, search_aliases: [Daman and Diu, Daman & Diu, Dadra and Nagar Haveli], geo_aliases: [Dadra and Nagar Haveli, Daman and Diu, Daman & Diu, Daman, Silvassa], gdelt_fips: [IN06]}

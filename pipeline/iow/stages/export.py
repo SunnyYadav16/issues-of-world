@@ -70,6 +70,9 @@ def export(
         counts[key] = len(newest)
         who = {"scope": NATIONAL} if key == NATIONAL else {"state": key}
         _write(root / key.lower() / "issues.json", {**who, "issues": [card(*p) for p in newest]}, now)
-    summary = [{"iso": s.iso, "lgd": s.lgd, "name": s.name, "count": counts[s.iso]} for s in states]
+    summary = [
+        {"iso": s.iso, "lgd": s.lgd, "name": s.name, "aliases": s.search_aliases, "count": counts[s.iso]}
+        for s in states
+    ]
     _write(root / "summary.json", {"states": summary, "national": {"count": counts[NATIONAL]}}, now)
     return counts

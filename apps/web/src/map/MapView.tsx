@@ -9,11 +9,15 @@ import { FILL, SOURCE, SOURCE_LAYER, nightStyle } from "./style";
 
 maplibregl.addProtocol("pmtiles", new Protocol().tile);
 
+export type Fly = { lng: number; lat: number; zoom: number; id: number };
+
 type Props = {
   selected: number | null;
   /** State_LGD codes that have stories; they glow a little even when idle. */
   lit: number[];
   names: Record<number, string>;
+  /** Fly to a searched place; a new `id` re-flies even to the same spot. */
+  fly: Fly | null;
   onSelect: (lgd: number | null) => void;
 };
 
@@ -51,7 +55,7 @@ function boundsOf(map: maplibregl.Map, lgd: number): maplibregl.LngLatBounds | n
   return b;
 }
 
-export function MapView({ selected, lit, names, onSelect }: Props) {
+export function MapView({ selected, lit, names, fly, onSelect }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const tag = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -60,6 +64,7 @@ export function MapView({ selected, lit, names, onSelect }: Props) {
   const stopDriftRef = useRef<() => void>(() => {});
   const easeRef = useRef<(id: number, key: "hover" | "sel", to: number) => void>(() => {});
   const litShown = useRef<number[]>([]);
+  const pin = useRef<maplibregl.Marker | null>(null); // the searched place
   const latest = useRef({ onSelect, names, lit, selected });
   useEffect(() => {
     latest.current = { onSelect, names, lit, selected };
@@ -227,6 +232,24 @@ export function MapView({ selected, lit, names, onSelect }: Props) {
     const b = boundsOf(map, selected);
     if (b) map.fitBounds(b, { padding: panelPadding(true), maxZoom: 6.4, pitch: narrow() ? 20 : 30, duration: dur(1300), easing: easeOutQuart });
   }, [selected]);
+
+  // Declared after the selection effect on purpose: a city inside a selected state flies to the city, not the state.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready.current) return;
+    if (!fly) {
+      pin.current?.remove();
+      pin.current = null;
+      return;
+    }
+    stopDriftRef.current();
+    pin.current ??= new maplibregl.Marker({ element: Object.assign(document.createElement("div"), { className: "pin" }) });
+    pin.current.setLngLat([fly.lng, fly.lat]).addTo(map);
+    map.flyTo({
+      center: [fly.lng, fly.lat], zoom: fly.zoom, pitch: narrow() ? 20 : 30,
+      padding: panelPadding(true), duration: dur(1800), easing: easeOutQuart,
+    });
+  }, [fly]);
 
   const reset = () => {
     latest.current.onSelect(null);

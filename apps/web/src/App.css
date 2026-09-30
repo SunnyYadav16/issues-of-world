@@ -175,6 +175,49 @@
 .app .maplibregl-ctrl.maplibregl-ctrl-attrib a { color: var(--ink-2); }
 .app .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-button { background-color: transparent; filter: invert(1); opacity: 0.75; }
 
+/* ---------- Search ---------- */
+.search { position: relative; margin-top: 16px; width: min(300px, calc(100vw - 40px)); pointer-events: auto; }
+.search input {
+  width: 100%; height: 40px; padding: 0 14px 0 38px; border-radius: 999px; border: 1px solid var(--line-strong);
+  background: rgb(8 13 21 / 0.78); backdrop-filter: blur(12px); color: var(--ink); font: inherit; font-size: 14px;
+  transition: border-color 0.16s ease-out, background-color 0.16s ease-out;
+}
+.search input::placeholder { color: var(--ink-3); }
+.search input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: rgb(244 184 96 / 0.5); }
+.search input::-webkit-search-cancel-button { display: none; }
+.search-icon { position: absolute; left: 14px; top: 12px; color: var(--ink-3); pointer-events: none; }
+.search-pop {
+  position: absolute; top: 48px; left: 0; right: 0; z-index: 3; margin: 0; padding: 6px; list-style: none; max-height: min(50dvh, 380px); overflow-y: auto;
+  background: var(--panel); backdrop-filter: blur(20px); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
+}
+.search-pop[hidden] { display: none; }
+.search-pop li[role="option"] {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 12px; border-radius: 10px; cursor: pointer; font-size: 14px;
+}
+.search-pop li[aria-selected="true"] { background: rgb(255 255 255 / 0.09); color: var(--amber); }
+.search-detail { color: var(--ink-3); font-size: 12px; text-align: right; }
+.search-empty { padding: 10px 12px; color: var(--ink-3); font-size: 13px; }
+@media (hover: hover) and (pointer: fine) { .search-pop li[role="option"]:hover { background: rgb(255 255 255 / 0.07); } }
+
+.pin {
+  width: 14px; height: 14px; border-radius: 50%; background: var(--amber); border: 2px solid #fff8ea;
+  box-shadow: 0 0 0 6px rgb(244 184 96 / 0.25), 0 0 24px rgb(244 184 96 / 0.8);
+}
+.notice-action {
+  justify-self: start; margin-top: 4px; height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgb(244 184 96 / 0.5); background: rgb(244 184 96 / 0.1); color: var(--amber); font-size: 13.5px;
+}
+@media (hover: hover) and (pointer: fine) { .notice-action:hover { background: rgb(244 184 96 / 0.2); } }
+
+/* ---------- Scope switch in the panel (city / state / national) ---------- */
+.scopes { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 24px 0; }
+.scopes button {
+  height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-2);
+  font-size: 13px; cursor: pointer; transition: background-color 0.14s ease-out, color 0.14s ease-out, border-color 0.14s ease-out;
+}
+.scopes button[aria-pressed="true"] { background: rgb(244 184 96 / 0.14); border-color: rgb(244 184 96 / 0.5); color: var(--amber); }
+@media (hover: hover) and (pointer: fine) { .scopes button:hover { background: rgb(255 255 255 / 0.07); } }
+
 /* ---------- State list (keyboard route to every state) ---------- */
 .state-list { position: relative; margin-top: 14px; pointer-events: auto; }
 .list-btn {
