@@ -12,6 +12,7 @@ D-001 to D-012: see project plan §14 (to be transcribed here under IOW-012).
 | D-018 | The web app stays local-only until IOW-021 and IOW-023 are done | Deploy the slice | No world ADM0 layer and no boundary QA yet (plan §4.1). |
 | D-019 | Hide every basemap layer with `source-layer = boundary` | Hide only admin-level-2 and disputed layers by ID | Robust to style changes; our SoI polygons are the only borders drawn. Revisit if state lines are wanted elsewhere. |
 | D-020 | Pin `maplibre-gl@5` | Move to 6.x (npm `latest` since the spec was written) | The spec says 5.x (D-001). 6.x drops the default export, so moving would be a migration. Revisit at IOW-109. |
+| D-021 | Use a Gemini API key as the first LLM provider (`GEMINI_API_KEY`); Anthropic and OpenAI keys deferred | Anthropic Haiku 4.5 / OpenAI GPT-5 mini as costed in plan §9 | Key already in hand; nothing calls an LLM yet (A4/IOW-008). The adapter (D-008) will need a Gemini backend before IOW-048; its classification F1 and cost must be measured on the gold set like any other model, and §9 has no Gemini cost row. Set a Google Cloud budget alert: the free tier has no hard cap on paid use. |
 
 ## Notes from the B6 basemap check (informal, not IOW-023 QA)
 
