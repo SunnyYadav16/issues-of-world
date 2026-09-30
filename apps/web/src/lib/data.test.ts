@@ -1,6 +1,6 @@
 // apps/web/src/lib/data.test.ts
 import { afterEach, expect, test, vi } from "vitest";
-import { loadCards, safeHref } from "./data";
+import { loadCards, loadSummary, safeHref } from "./data";
 
 const stub = (body: unknown, ok = true, status = 200) =>
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok, status, json: async () => body }));
@@ -27,4 +27,12 @@ test("safeHref only lets http(s) links through", () => {
   expect(safeHref("javascript:alert(1)")).toBe("#");
   expect(safeHref("data:text/html,x")).toBe("#");
   expect(safeHref("https://a.example/x")).toBe("https://a.example/x");
+});
+
+test("loadSummary returns states and the export time", async () => {
+  stub({ schema_version: 1, generated_at: "2026-09-29T02:19:00+00:00", states: [{ iso: "MH", lgd: 27, name: "Maharashtra", count: 3 }] });
+  expect(await loadSummary()).toEqual({
+    generatedAt: "2026-09-29T02:19:00+00:00",
+    states: [{ iso: "MH", lgd: 27, name: "Maharashtra", count: 3 }],
+  });
 });
