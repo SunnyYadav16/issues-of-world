@@ -15,7 +15,8 @@ class State(BaseModel):
     name: str
     type: Literal["state", "ut"]
     capital: str
-    aliases: list[str] = []
+    search_aliases: list[str] = []
+    geo_aliases: list[str] = []
     gdelt_fips: list[str] = []
 
 

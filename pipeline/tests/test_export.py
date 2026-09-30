@@ -3,6 +3,7 @@ import json
 from datetime import datetime, timedelta, timezone
 
 from iow.core.contracts import RawItem
+from iow.core.sources import Source
 from iow.stages.export import card, export, outlet
 
 NOW = datetime(2026, 9, 29, tzinfo=timezone.utc)
@@ -41,10 +42,29 @@ def test_card_fields_and_outlet(tmp_path):
     assert c["origin_count"] == 1
 
 
-def test_display_policy_blocks_snippet():
-    assert "snippet" not in card(item(snippet="secret words", policy="headline_link"))
+def test_card_snippet_follows_the_policy_it_is_given():
+    assert "snippet" not in card(item(snippet="secret words"), "headline_link")
     long = " ".join(f"w{i}" for i in range(50))
-    assert len(card(item(snippet=long, policy="snippet_20w"))["snippet"].split()) == 20
+    assert len(card(item(snippet=long), "snippet_20w")["snippet"].split()) == 20
+
+
+def test_registry_beats_the_plugin_claim(tmp_path):
+    # The plugin says full_redistribution; sources.yaml says gdelt is headline + link only.
+    export([item(policy="full_redistribution", snippet="secret words")], tmp_path, NOW)
+    assert set(read(tmp_path, "mh", "issues.json")["issues"][0]) == {
+        "id", "headline", "outlet", "published_at", "url", "origin_count",
+    }
+
+
+def test_registry_is_what_grants_snippets(tmp_path):
+    reg = {"gdelt": Source(id="gdelt", tier=3, license_id="x", display_policy="snippet_20w", attribution="a")}
+    export([item(policy="headline_link", snippet="a b c")], tmp_path, NOW, reg)
+    assert read(tmp_path, "mh", "issues.json")["issues"][0]["snippet"] == "a b c"
+
+
+def test_unregistered_source_is_dropped(tmp_path):
+    rogue = item().model_copy(update={"source_id": "not-in-sources-yaml"})
+    assert sum(export([rogue], tmp_path, NOW).values()) == 0
 
 
 def test_duplicate_url_once_and_newest_first(tmp_path):
