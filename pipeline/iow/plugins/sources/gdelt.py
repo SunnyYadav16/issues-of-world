@@ -3,6 +3,7 @@
 
 Not the DOC 2.0 API: that returns no location codes, and this slice needs GDELT's own ADM1 codes.
 """
+
 import csv
 import html
 import io

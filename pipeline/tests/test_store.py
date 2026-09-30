@@ -7,8 +7,14 @@ from iow.core.contracts import RawItem
 
 def item(url):
     return RawItem(
-        source_id="gdelt", url=url, headline="h", published_at=datetime(2026, 9, 29, tzinfo=timezone.utc),
-        license_id="x", display_policy="headline_link", attribution="a", geo_hint="IN07",
+        source_id="gdelt",
+        url=url,
+        headline="h",
+        published_at=datetime(2026, 9, 29, tzinfo=timezone.utc),
+        license_id="x",
+        display_policy="headline_link",
+        attribution="a",
+        geo_hint="IN07",
     )
 
 
