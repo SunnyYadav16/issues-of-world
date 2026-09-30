@@ -98,7 +98,7 @@ The GitHub repo `SunnyYadav16/issues-of-world` already exists and is public. Mis
 **Files:**
 - Create: `LICENSE`, modify: `README.md`, `.gitignore`
 
-- [ ] **Step 1: Add the MIT license**
+- [x] **Step 1: Add the MIT license**
 
 Create `LICENSE`:
 
@@ -126,7 +126,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-- [ ] **Step 2: Write the README skeleton**
+- [x] **Step 2: Write the README skeleton**
 
 Replace `README.md` with:
 
@@ -151,7 +151,7 @@ It is a corroboration engine, not a truth oracle: it reports how many independen
 Code: MIT. Data files carry their own licenses, see `docs/DATA_LICENSES.md`.
 ```
 
-- [ ] **Step 3: Ignore generated files, secrets, and the plan HTML**
+- [x] **Step 3: Ignore generated files, secrets, and the plan HTML**
 
 Append to `.gitignore`:
 
@@ -167,7 +167,7 @@ tiles/*.parquet
 !apps/web/src/lib/
 ```
 
-- [ ] **Step 4: Verify what is and is not ignored**
+- [x] **Step 4: Verify what is and is not ignored**
 
 Run: `git status --short`
 Expected: lists `LICENSE`, `README.md`, `.gitignore`, `docs/` and does **not** list the `Project Plan` HTML.
@@ -175,7 +175,7 @@ Expected: lists `LICENSE`, `README.md`, `.gitignore`, `docs/` and does **not** l
 Run: `git check-ignore -v apps/web/src/lib/data.ts; echo "exit=$?"` (the path need not exist yet)
 Expected: no output line, `exit=1`. Without the `!apps/web/src/lib/` line it prints `.gitignore:17:lib/ ...` and `exit=0`.
 
-- [ ] **Step 5: Commit and push**
+- [x] **Step 5: Commit and push**
 
 ```bash
 git add LICENSE README.md .gitignore docs/superpowers/plans
@@ -183,7 +183,7 @@ git commit -m "chore: add MIT license, README skeleton, first-slice plan"
 git push origin main
 ```
 
-- [ ] **Step 6: Pin the repo (manual, 1 min)**
+- [x] **Step 6: Pin the repo (manual, 1 min)**
 
 GitHub profile → "Customize your pins" → tick `issues-of-world`. (GitHub has no API for pins.)
 
@@ -195,12 +195,12 @@ Done when: `gh repo view SunnyYadav16/issues-of-world --json licenseInfo -q .lic
 
 ReliefWeb needs a pre-approved appname since Nov 1, 2025. Format required: your (organization) name + purpose + random characters. Review takes about one business day.
 
-- [ ] **Step 1: Generate the random part**
+- [x] **Step 1: Generate the random part**
 
 Run: `echo "issues-of-world-$(openssl rand -hex 4)"`
 Expected: something like `issues-of-world-3fa91c07`. Copy it. This is your requested appname.
 
-- [ ] **Step 2: Submit the form**
+- [x] **Step 2: Submit the form**
 
 Open https://docs.google.com/forms/d/e/1FAIpQLScR5EE_SBhweLLg_2xMCnXNbT6md4zxqIB00OL0yZWyrqX_Nw/viewform?usp=header and fill in: your name, "issues-of-world (open-source portfolio project)", purpose "show ReliefWeb disaster reports for Indian states on a public map, headline + link only", and the appname from Step 1.
 
@@ -228,18 +228,18 @@ Done when: `gh secret list -R SunnyYadav16/issues-of-world` shows `RELIEFWEB_APP
 **Files:**
 - Create: `scripts/factcheck_smoke.sh`, `.env.example`
 
-- [ ] **Step 1: Create the key**
+- [x] **Step 1: Create the key**
 
 Google Cloud Console → new project `issues-of-world` → APIs & Services → enable **Fact Check Tools API** → Credentials → Create API key → restrict it to "Fact Check Tools API". Copy the key.
 
-- [ ] **Step 2: Store it**
+- [x] **Step 2: Store it**
 
 ```bash
 gh secret set GOOGLE_FACTCHECK_API_KEY -R SunnyYadav16/issues-of-world
 ```
 Also add `GOOGLE_FACTCHECK_API_KEY=<key>` to your local `.env`.
 
-- [ ] **Step 3: Write the smoke-test script**
+- [x] **Step 3: Write the smoke-test script**
 
 Create `scripts/factcheck_smoke.sh`:
 
@@ -262,12 +262,12 @@ for c in claims:
 '
 ```
 
-- [ ] **Step 4: Run it**
+- [x] **Step 4: Run it**
 
 Run: `chmod +x scripts/factcheck_smoke.sh && ./scripts/factcheck_smoke.sh`
 Expected: up to 5 lines of `Publisher | claim text`. Failure `no claims returned` means the key works but the query found nothing; try `query=Modi`. `curl: (22) ... error: 400` means the key is wrong (checked: an invalid key returns `400 API_KEY_INVALID`); `403` means the API is not enabled or the key restriction is wrong.
 
-- [ ] **Step 5: Add `.env.example` and commit**
+- [x] **Step 5: Add `.env.example` and commit**
 
 Create `.env.example`:
 
@@ -292,15 +292,15 @@ Done when: the script prints India-related fact checks.
 
 No LLM is called in the first slice (classification comes later), but the keys and the spend alerts are Phase 0 and cheap to do now.
 
-- [ ] **Step 1: Create keys**
+- [x] **Step 1: Create keys**
 
 Anthropic Console → API keys → create `issues-of-world`. OpenAI dashboard → API keys → create `issues-of-world`. (Skip a provider you will not use; §9 estimates Claude Haiku 4.5 about $19/month and GPT-5 mini about $5-6/month.)
 
-- [ ] **Step 2: Set spend limits first, before storing the keys**
+- [x] **Step 2: Set spend limits first, before storing the keys**
 
 Anthropic Console → Billing/Limits: set a monthly limit of $25 and an email alert at $10. OpenAI → Billing → Usage limits: hard limit $25, email threshold $10. (Matches the ≤ $25/month target in §8.2.)
 
-- [ ] **Step 3: Store the keys**
+- [x] **Step 3: Store the keys**
 
 ```bash
 gh secret set ANTHROPIC_API_KEY -R SunnyYadav16/issues-of-world
@@ -308,7 +308,7 @@ gh secret set OPENAI_API_KEY -R SunnyYadav16/issues-of-world
 ```
 Also add both to local `.env`.
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run: `gh secret list -R SunnyYadav16/issues-of-world`
 Expected: `RELIEFWEB_APPNAME` (once approved), `GOOGLE_FACTCHECK_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
@@ -335,7 +335,7 @@ Creates the Python project (the minimum of IOW-003 the slice needs) and the refe
 **Interfaces:**
 - Produces: `State` model (`iso: str`, `lgd: int`, `name: str`, `type: "state"|"ut"`, `capital: str`, `aliases: list[str]`, `gdelt_fips: list[str]`); `load_states() -> list[State]` (36 entries); `fips_index() -> dict[str, State]` mapping a GDELT code such as `"IN07"` to its `State`.
 
-- [ ] **Step 1: Create the project skeleton**
+- [x] **Step 1: Create the project skeleton**
 
 ```bash
 mkdir -p pipeline/iow/core pipeline/iow/plugins/sources pipeline/iow/stages pipeline/tests data/in
@@ -377,12 +377,12 @@ line-length = 120
 select = ["E", "F", "I"]
 ```
 
-- [ ] **Step 2: Install and confirm an empty suite passes**
+- [x] **Step 2: Install and confirm an empty suite passes**
 
 Run: `cd pipeline && uv sync && uv run pytest`
 Expected: `no tests ran` (exit code 5 is fine for an empty suite).
 
-- [ ] **Step 3: Write the failing test**
+- [x] **Step 3: Write the failing test**
 
 Create `pipeline/tests/test_states.py`:
 
@@ -416,12 +416,12 @@ def test_former_names_are_aliases():
     assert alias["Bombay"] == "MH"
 ```
 
-- [ ] **Step 4: Run it and see it fail**
+- [x] **Step 4: Run it and see it fail**
 
 Run: `cd pipeline && uv run pytest tests/test_states.py -v`
 Expected: FAIL / collection error `ModuleNotFoundError: No module named 'iow.core.states'`.
 
-- [ ] **Step 5: Write `data/in/states.yaml`**
+- [x] **Step 5: Write `data/in/states.yaml`**
 
 ```yaml
 # data/in/states.yaml
@@ -469,7 +469,7 @@ Expected: FAIL / collection error `ModuleNotFoundError: No module named 'iow.cor
 - {iso: DH, lgd: 38, name: Dadra and Nagar Haveli and Daman and Diu, type: ut, capital: Daman, aliases: [Daman and Diu, Daman & Diu, Dadra and Nagar Haveli], gdelt_fips: [IN06]}
 ```
 
-- [ ] **Step 6: Write the loader**
+- [x] **Step 6: Write the loader**
 
 Create `pipeline/iow/core/states.py`:
 
@@ -506,16 +506,16 @@ def fips_index() -> dict[str, State]:
     return {code: s for s in load_states() for code in s.gdelt_fips}
 ```
 
-- [ ] **Step 7: Run tests and see them pass**
+- [x] **Step 7: Run tests and see them pass**
 
 Run: `cd pipeline && uv run pytest tests/test_states.py -v`
 Expected: 3 passed.
 
-- [ ] **Step 8: Spot-check ISO codes (5 min)**
+- [x] **Step 8: Spot-check ISO codes (5 min)**
 
 Open https://en.wikipedia.org/wiki/ISO_3166-2:IN and confirm the 36 `iso` values (28 states + 8 UTs). Already checked on 2026-09-28: all 36 match, including the 2023 changes Odisha `OD`, Chhattisgarh `CG`, Telangana `TS`, Uttarakhand `UK` (was `UT`), plus `DH` and `LA`. Fix any typo and re-run Step 7. This clears the IOW-009 "VERIFY" for ISO codes.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add pipeline data/in/states.yaml
@@ -537,7 +537,7 @@ Why not the DOC 2.0 API (named in IOW-041): its article list documents no locati
 - Produces: `RawItem` (spec §5.3 plus `geo_hint: str | None`), `SourcePlugin` protocol, `GdeltSource(client=None).fetch(since, until=None) -> Iterator[RawItem]`, `parse_row(cols) -> RawItem | None`, `primary_adm1(locations) -> str | None`, `batch_stamps(since, until) -> Iterator[str]`, `store.read_all(path=DEFAULT) -> list[RawItem]`, `store.append_new(items, path=DEFAULT) -> int`.
 - `geo_hint` is the source-provided ADM1 code of the article's dominant location. Core maps it to a state via `fips_index()` (Task B3). This adds one optional field to the §5.3 contract (D-014).
 
-- [ ] **Step 1: Write the contract**
+- [x] **Step 1: Write the contract**
 
 Create `pipeline/iow/core/contracts.py`:
 
@@ -571,7 +571,7 @@ class SourcePlugin(Protocol):
     def fetch(self, since: datetime) -> Iterable[RawItem]: ...
 ```
 
-- [ ] **Step 2: Write the failing tests**
+- [x] **Step 2: Write the failing tests**
 
 Create `pipeline/tests/test_gdelt.py`:
 
@@ -674,12 +674,12 @@ def test_fetch_fails_loudly_on_server_error():
         list(src.fetch(since, since))
 ```
 
-- [ ] **Step 3: Run and see failure**
+- [x] **Step 3: Run and see failure**
 
 Run: `cd pipeline && uv run pytest tests/test_gdelt.py -v`
 Expected: collection error `ModuleNotFoundError: No module named 'iow.plugins.sources.gdelt'`.
 
-- [ ] **Step 4: Write the plugin**
+- [x] **Step 4: Write the plugin**
 
 Create `pipeline/iow/plugins/sources/gdelt.py`:
 
@@ -786,12 +786,12 @@ class GdeltSource:
             yield from _parse_zip(r.content)
 ```
 
-- [ ] **Step 5: Run and see pass**
+- [x] **Step 5: Run and see pass**
 
 Run: `cd pipeline && uv run pytest tests/test_gdelt.py -v`
 Expected: 12 passed (including 3 parametrized cases).
 
-- [ ] **Step 6: Write the failing store test**
+- [x] **Step 6: Write the failing store test**
 
 Create `pipeline/tests/test_store.py`:
 
@@ -821,7 +821,7 @@ def test_read_all_on_missing_file_is_empty(tmp_path):
     assert store.read_all(tmp_path / "nope.jsonl") == []
 ```
 
-- [ ] **Step 7: Run and see failure, then write the store**
+- [x] **Step 7: Run and see failure, then write the store**
 
 Run: `cd pipeline && uv run pytest tests/test_store.py -v`
 Expected: FAIL `ImportError: cannot import name 'store' from 'iow'`.
@@ -864,7 +864,7 @@ def append_new(items: Iterable[RawItem], path: Path = DEFAULT) -> int:
 Run: `cd pipeline && uv run pytest tests/test_store.py -v`
 Expected: 2 passed.
 
-- [ ] **Step 8: Prove it on real data**
+- [x] **Step 8: Prove it on real data**
 
 Run this one-off (does not touch the store):
 
@@ -881,7 +881,7 @@ EOF
 ```
 Expected: tens to a few hundred items depending on the time of day (54 at 02:00 UTC during planning), each with a code like `IN07` and a readable English (or local-language) headline. If it prints `0 items`, check the newest file exists: `curl -s https://data.gdeltproject.org/gdeltv2/lastupdate.txt`.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add pipeline
@@ -908,7 +908,7 @@ summary.json: {"states": [{"iso","lgd","name","count"}, ... 36 entries]}
 <iso>/issues.json: {"state": "MH", "issues": [{"id","headline","outlet","published_at","url","origin_count"}, ...]}
 ```
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `pipeline/tests/test_export.py`:
 
@@ -988,12 +988,12 @@ def test_outlet_handles_odd_urls():
     assert outlet("not a url") == ""
 ```
 
-- [ ] **Step 2: Run and see failure**
+- [x] **Step 2: Run and see failure**
 
 Run: `cd pipeline && uv run pytest tests/test_export.py -v`
 Expected: collection error `ModuleNotFoundError: No module named 'iow.stages.export'`.
 
-- [ ] **Step 3: Write the exporter**
+- [x] **Step 3: Write the exporter**
 
 Create `pipeline/iow/stages/export.py`:
 
@@ -1060,12 +1060,12 @@ def export(items: Iterable[RawItem], out_dir: Path, now: datetime) -> dict[str, 
     return counts
 ```
 
-- [ ] **Step 4: Run and see pass**
+- [x] **Step 4: Run and see pass**
 
 Run: `cd pipeline && uv run pytest tests/test_export.py -v`
 Expected: 7 passed.
 
-- [ ] **Step 5: Write the CLI**
+- [x] **Step 5: Write the CLI**
 
 Create `pipeline/iow/cli.py`:
 
@@ -1098,12 +1098,12 @@ def main() -> None:
         print(f"exported {sum(counts.values())} cards across {sum(1 for c in counts.values() if c)} states")
 ```
 
-- [ ] **Step 6: Run the whole suite plus lint**
+- [x] **Step 6: Run the whole suite plus lint**
 
 Run: `cd pipeline && uv run pytest && uv run ruff check .`
 Expected: 24 tests pass; ruff prints `All checks passed!`. (If ruff reports import-order (`I001`) issues, run `uv run ruff check . --fix` once.)
 
-- [ ] **Step 7: Run it for real**
+- [x] **Step 7: Run it for real**
 
 ```bash
 cd pipeline
@@ -1113,7 +1113,7 @@ ls ../apps/web/public/data/in | head -5
 ```
 Expected: `stored N new items` with N in the hundreds or more; `exported M cards across K states` with K ≥ 15 (the full 24 h sample reached 32 states); running `uv run iow fetch --hours 6` a second time prints `stored 0 new items`; the directory listing shows `summary.json` and state folders like `ap`, `br`. Then `python3 -c "import json;d=json.load(open('../apps/web/public/data/in/dl/issues.json'));print(len(d['issues']), d['issues'][0])"` shows a real card. (First fetch downloads about 24 files × 3.7 MB.)
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add pipeline
@@ -1130,7 +1130,7 @@ The repo already publishes ready-made PMTiles, so nothing is built. Verified on 
 - Create: `docs/DATA_LICENSES.md`, `tiles/cors.json`
 - Uses (gitignored): `tiles/SOI_States.pmtiles`
 
-- [ ] **Step 1: Download**
+- [x] **Step 1: Download**
 
 ```bash
 mkdir -p tiles
@@ -1139,7 +1139,7 @@ shasum -a 256 tiles/SOI_States.pmtiles
 ```
 Expected: a ~5.6 MB file. Copy the SHA-256.
 
-- [ ] **Step 2: Confirm layer and properties (guards against the file changing upstream)**
+- [x] **Step 2: Confirm layer and properties (guards against the file changing upstream)**
 
 ```bash
 uv run --quiet --with pmtiles --with mapbox-vector-tile python - <<'EOF'
@@ -1155,7 +1155,7 @@ EOF
 ```
 Expected: `40 features; LGD codes: [0, 1, 2, ..., 24, 27, ..., 38]`.
 
-- [ ] **Step 3: Record data licenses (IOW-020 done-when)**
+- [x] **Step 3: Record data licenses (IOW-020 done-when)**
 
 Create `docs/DATA_LICENSES.md` (replace `<sha256>` with the value from Step 1):
 
@@ -1171,7 +1171,7 @@ Create `docs/DATA_LICENSES.md` (replace `<sha256>` with the value from Step 1):
 Still to verify (plan §16): OpenFreeMap usage terms; per-file SoI provenance for the tiles.
 ```
 
-- [ ] **Step 4: Create the R2 bucket (manual, needs your Cloudflare login)**
+- [x] **Step 4: Create the R2 bucket (manual, needs your Cloudflare login)**
 
 ```bash
 npx wrangler login
@@ -1180,7 +1180,7 @@ npx wrangler r2 bucket dev-url enable iow-tiles
 ```
 The last command prints a public URL like `https://pub-<hash>.r2.dev`. Copy it. (r2.dev URLs are rate-limited and meant for development; a custom domain replaces it when the site is deployed, IOW-036.)
 
-- [ ] **Step 5: Set CORS so range requests work from the dev server**
+- [x] **Step 5: Set CORS so range requests work from the dev server**
 
 Create `tiles/cors.json`:
 
@@ -1208,14 +1208,14 @@ The `rules` / `allowed` shape is the one the Cloudflare R2 CORS docs give for wr
 [{"AllowedOrigins": ["http://localhost:5173"], "AllowedMethods": ["GET", "HEAD"], "AllowedHeaders": ["range", "if-match"], "ExposeHeaders": ["etag", "content-length", "content-range"], "MaxAgeSeconds": 3600}]
 ```
 
-- [ ] **Step 6: Upload (note `--remote`; wrangler writes to a local emulator otherwise)**
+- [x] **Step 6: Upload (note `--remote`; wrangler writes to a local emulator otherwise)**
 
 ```bash
 npx wrangler r2 object put iow-tiles/in_adm1.pmtiles --file tiles/SOI_States.pmtiles \
   --content-type application/octet-stream --remote
 ```
 
-- [ ] **Step 7: Verify range requests and CORS**
+- [x] **Step 7: Verify range requests and CORS**
 
 ```bash
 URL=https://pub-<hash>.r2.dev/in_adm1.pmtiles   # your URL from Step 4
@@ -1223,7 +1223,7 @@ curl -s -o /dev/null -D - -H 'Origin: http://localhost:5173' -H 'Range: bytes=0-
 ```
 Expected: `HTTP/2 206`, a `content-range: bytes 0-16383/...` line, and `access-control-allow-origin: http://localhost:5173`. A `200` instead of `206` means ranges are not honoured; recheck the URL.
 
-- [ ] **Step 8: Save the URL for the web app and commit**
+- [x] **Step 8: Save the URL for the web app and commit**
 
 Note the URL for Task B5 (`VITE_TILES_URL`).
 
@@ -1242,7 +1242,7 @@ git commit -m "feat: SoI state tiles on R2 and data license record (IOW-020, IOW
 **Interfaces:**
 - Produces: `StateSummary {iso, lgd, name, count}`, `Card {id, headline, outlet, published_at, url, origin_count}`, `loadSummary(): Promise<StateSummary[]>`, `loadCards(iso: string): Promise<Card[]>`, `safeHref(url: string): string`.
 
-- [ ] **Step 1: Scaffold**
+- [x] **Step 1: Scaffold**
 
 ```bash
 mkdir -p apps
@@ -1253,7 +1253,7 @@ npm install -D vitest
 ```
 Pin `maplibre-gl@5`: plain `npm install maplibre-gl` now installs 6.x, which has no default export, and `MapView.tsx` fails to compile (`TS1192: ... has no default export`). The spec says 5.x (§6.1, D-001); this was checked with 5.24.0. The template (checked 2026-09-28) ships React 19, Vite 8, TypeScript 6, and `oxlint` as `npm run lint`. Swapping it for Biome is IOW-004, not this slice.
 
-- [ ] **Step 2: Add the test script and env files**
+- [x] **Step 2: Add the test script and env files**
 
 In `apps/web/package.json` add to `"scripts"`: `"test": "vitest run"`.
 
@@ -1269,7 +1269,7 @@ Create `apps/web/.env.example`:
 VITE_TILES_URL=
 ```
 
-- [ ] **Step 3: Write the failing test**
+- [x] **Step 3: Write the failing test**
 
 Create `apps/web/src/lib/data.test.ts`:
 
@@ -1306,12 +1306,12 @@ test("safeHref only lets http(s) links through", () => {
 });
 ```
 
-- [ ] **Step 4: Run and see failure**
+- [x] **Step 4: Run and see failure**
 
 Run: `cd apps/web && npm test`
 Expected: FAIL, cannot resolve `./data`.
 
-- [ ] **Step 5: Write the loader**
+- [x] **Step 5: Write the loader**
 
 Create `apps/web/src/lib/data.ts`:
 
@@ -1354,17 +1354,17 @@ export function safeHref(url: string): string {
 }
 ```
 
-- [ ] **Step 6: Run and see pass**
+- [x] **Step 6: Run and see pass**
 
 Run: `cd apps/web && npm test`
 Expected: 4 passed.
 
-- [ ] **Step 7: Confirm the app still builds**
+- [x] **Step 7: Confirm the app still builds**
 
 Run: `cd apps/web && npm run build`
 Expected: exits 0 (the untouched template still compiles).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add apps/web .gitignore
@@ -1387,7 +1387,7 @@ Compliance handling: all basemap layers whose `source-layer` is `boundary` (the 
 - Consumes: `StateSummary`, `loadSummary` (B5); `VITE_TILES_URL`.
 - Produces: `<MapView selected={number|null} onSelect={(lgd: number|null) => void} />`. `selected` is a `State_LGD`. In dev builds the map is also exposed as `window.__map` for browser checks.
 
-- [ ] **Step 1: Write the map component**
+- [x] **Step 1: Write the map component**
 
 Create `apps/web/src/map/MapView.tsx`:
 
@@ -1507,7 +1507,7 @@ export function MapView({ selected, onSelect }: Props) {
 }
 ```
 
-- [ ] **Step 2: Wire it into the app (panel comes in B7)**
+- [x] **Step 2: Wire it into the app (panel comes in B7)**
 
 Replace `apps/web/src/App.tsx`:
 
@@ -1543,17 +1543,17 @@ Replace `apps/web/src/App.css`:
 .app .map { position: absolute; inset: 0; }
 ```
 
-- [ ] **Step 3: Confirm it type-checks and lints**
+- [x] **Step 3: Confirm it type-checks and lints**
 
 Run: `cd apps/web && npm run build && npm run lint`
 Expected: build exits 0; oxlint reports no warnings.
 
-- [ ] **Step 4: Run and look**
+- [x] **Step 4: Run and look**
 
 Run: `cd apps/web && npm run dev` (leave running). Open http://localhost:5173.
 Expected: a globe centred near India, India's states tinted blue with dark outlines, no other country borders anywhere on the globe.
 
-- [ ] **Step 5: Machine-check the four IOW-030/031 conditions in the browser**
+- [x] **Step 5: Machine-check the four IOW-030/031 conditions in the browser**
 
 With the dev server running, use the Playwright tools: navigate to `http://localhost:5173`, wait 5 s, then evaluate:
 
@@ -1577,11 +1577,11 @@ Expected: `projection: "globe"`, `visibleBoundaryLayers: 0`, `hasStateSource: tr
 Then click that pixel (`page.mouse.click(x, y)` via the run-code tool with `delhiPixel`) and evaluate `window.__map.getFeatureState({source:"in_states",sourceLayer:"SOI_States",id:7})`.
 Expected: `{ "selected": true, ... }`. Hover over another state first and confirm its fill gets more opaque (0.5 vs 0.25).
 
-- [ ] **Step 6: Eyeball the disputed regions and the basemap labels (plan §16, risk in §13)**
+- [x] **Step 6: Eyeball the disputed regions and the basemap labels (plan §16, risk in §13)**
 
 Take a screenshot zoomed on J&K / Ladakh and on Arunachal Pradesh. Confirm: SoI outline is drawn, no second dashed border, and note which place names the basemap labels show in these areas. Write findings into a scratch note; they go into `docs/DECISIONS.md` in B8. This is not the formal QA (IOW-023), so nothing here is public.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add apps/web
@@ -1600,7 +1600,7 @@ git commit -m "feat: MapLibre globe with clickable SoI state layer (IOW-030, IOW
 - Consumes: `loadSummary`, `loadCards`, `safeHref`, `StateSummary`, `Card` (B5); `<MapView>` (B6).
 - Produces: `<StatePanel state={StateSummary} onClose={() => void} />`.
 
-- [ ] **Step 1: Write the panel**
+- [x] **Step 1: Write the panel**
 
 Create `apps/web/src/panel/StatePanel.tsx`:
 
@@ -1658,7 +1658,7 @@ export function StatePanel({ state, onClose }: Props) {
 
 `origin_count` is deliberately not shown: with no dedup yet, "1 source" on every card would claim independence that has not been checked.
 
-- [ ] **Step 2: Wire it into the app**
+- [x] **Step 2: Wire it into the app**
 
 Replace `apps/web/src/App.tsx`:
 
@@ -1688,7 +1688,7 @@ export default function App() {
 }
 ```
 
-- [ ] **Step 3: Style the panel**
+- [x] **Step 3: Style the panel**
 
 Append to `apps/web/src/App.css`:
 
@@ -1708,19 +1708,19 @@ Append to `apps/web/src/App.css`:
 .cards .meta { margin-top: 2px; font-size: 12px; color: #555; }
 ```
 
-- [ ] **Step 4: Build and unit tests**
+- [x] **Step 4: Build and unit tests**
 
 Run: `cd apps/web && npm run build && npm test && npm run lint`
 Expected: build exits 0; 4 tests pass; oxlint reports no warnings.
 
-- [ ] **Step 5: Check it in the browser**
+- [x] **Step 5: Check it in the browser**
 
 With `npm run dev` running and the JSON from Task B3 in `apps/web/public/data/`, use the Playwright tools: navigate to `http://localhost:5173`, click Maharashtra (project `[75.7, 19.7]` with `window.__map.project(...)` and click there), then snapshot.
 Expected: a right-hand panel titled "Maharashtra" with several headline links, each with `outlet · date`. Click on the sea (project `[70, 15]` clicks off-land) and confirm the panel closes.
 Also click Telangana (`[79, 17.9]`): expect "No stories yet." (known gap, D-016).
 Finally check links: `document.querySelectorAll('.cards a')[0].getAttribute('rel')` is `noopener noreferrer`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web
@@ -1734,7 +1734,7 @@ git commit -m "feat: state panel listing exported headlines (IOW-033)"
 **Files:**
 - Create: `docs/DECISIONS.md`
 
-- [ ] **Step 1: Fresh end-to-end run**
+- [x] **Step 1: Fresh end-to-end run**
 
 ```bash
 rm -rf pipeline/var apps/web/public/data
@@ -1743,7 +1743,7 @@ cd ../apps/web && npm test && npm run build
 ```
 Expected: all green; `stored N new items`; `exported M cards across K states`.
 
-- [ ] **Step 2: Slice acceptance in the browser**
+- [x] **Step 2: Slice acceptance in the browser**
 
 `npm run dev`, then confirm each:
 1. Globe renders with India's states and no other borders (B6 Step 5 conditions still hold).
@@ -1751,7 +1751,7 @@ Expected: all green; `stored N new items`; `exported M cards across K states`.
 3. The panel shows real headlines with outlet and date; links open the article in a new tab.
 4. Closing the panel or clicking off-land clears the selection.
 
-- [ ] **Step 3: Write the decision log**
+- [x] **Step 3: Write the decision log**
 
 Create `docs/DECISIONS.md` (the D-001…D-012 log lives in the project plan §14 until IOW-012 copies it here; decisions made from now on are recorded below):
 
@@ -1777,7 +1777,7 @@ D-001 to D-012: see project plan §14 (to be transcribed here under IOW-012).
 
 Replace the HTML comment line with what you actually saw in B6 Step 6.
 
-- [ ] **Step 4: Commit and push**
+- [x] **Step 4: Commit and push**
 
 ```bash
 git add docs/DECISIONS.md
