@@ -35,9 +35,11 @@ const INTRO: maplibregl.CameraOptions = { center: [-8, 16], zoom: 0.7, pitch: 0,
 
 /** Keep the selected state clear of the panel: panel is a right sheet on desktop, a bottom sheet on phones. */
 const panelPadding = (open: boolean): maplibregl.PaddingOptions =>
-  !open ? { top: 0, right: 0, bottom: 0, left: 0 }
-  : narrow() ? { top: 90, right: 20, bottom: Math.round(window.innerHeight * 0.52), left: 20 }
-  : { top: 90, right: Math.min(460, Math.round(window.innerWidth * 0.42)), bottom: 60, left: 80 };
+  !open
+    ? { top: 0, right: 0, bottom: 0, left: 0 }
+    : narrow()
+      ? { top: 90, right: 20, bottom: Math.round(window.innerHeight * 0.52), left: 20 }
+      : { top: 90, right: Math.min(460, Math.round(window.innerWidth * 0.42)), bottom: 60, left: 80 };
 
 const easeOutQuart = (t: number) => 1 - (1 - t) ** 4;
 /** Under reduced motion every camera move is instant; stated here rather than left to MapLibre defaults. */
@@ -89,7 +91,10 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
       attributionControl: false,
     });
     mapRef.current = map;
-    map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: "News: GDELT Project" }), "bottom-left");
+    map.addControl(
+      new maplibregl.AttributionControl({ compact: true, customAttribution: "News: GDELT Project" }),
+      "bottom-left",
+    );
     if (import.meta.env.DEV) (window as unknown as { __map: maplibregl.Map }).__map = map;
 
     const target = (id: number) => ({ source: SOURCE, sourceLayer: SOURCE_LAYER, id });
@@ -98,14 +103,17 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
     // slower to fade: the system answers fast, then lets go gently.
     type Eased = { id: number; key: "hover" | "sel"; v: number; to: number };
     const eased = new Map<string, Eased>();
-    let raf = 0, prev = 0;
+    let raf = 0,
+      prev = 0;
     const tick = (now: number) => {
-      const dt = now - prev; prev = now;
+      const dt = now - prev;
+      prev = now;
       let moving = false;
       for (const [k, e] of eased) {
         const tau = e.to > e.v ? (e.key === "hover" ? 70 : 140) : e.key === "hover" ? 170 : 240;
         e.v += (e.to - e.v) * (1 - Math.exp(-dt / tau));
-        if (Math.abs(e.to - e.v) < 0.01) e.v = e.to; else moving = true;
+        if (Math.abs(e.to - e.v) < 0.01) e.v = e.to;
+        else moving = true;
         map.setFeatureState(target(e.id), { [e.key]: e.v });
         if (e.v === 0 && e.to === 0) eased.delete(k);
       }
@@ -116,8 +124,15 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
       const e = eased.get(k) ?? { id, key, v: 0, to };
       e.to = to;
       eased.set(k, e);
-      if (reducedMotion()) { e.v = to; map.setFeatureState(target(id), { [key]: to }); return; }
-      if (!raf) { prev = performance.now(); raf = requestAnimationFrame(tick); }
+      if (reducedMotion()) {
+        e.v = to;
+        map.setFeatureState(target(id), { [key]: to });
+        return;
+      }
+      if (!raf) {
+        prev = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
     };
 
     let hovered: number | null = null;
@@ -138,7 +153,9 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
     // visitor (pointer, wheel, touch, key) and never runs under reduced motion.
     const startDrift = () => {
       if (latest.current.selected !== null) return;
-      const lat = map.getCenter().lat, base = map.getCenter().lng, t0 = performance.now();
+      const lat = map.getCenter().lat,
+        base = map.getCenter().lng,
+        t0 = performance.now();
       let id = 0;
       const PERIOD = 70000; // one full sway, then rest: an endless 60 fps render loop is not worth the battery
       const step = (now: number) => {
@@ -176,7 +193,8 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
 
     map.on("move", () => {
       const c = map.getCenter();
-      skyOffset.lng = c.lng; skyOffset.lat = c.lat;
+      skyOffset.lng = c.lng;
+      skyOffset.lat = c.lat;
       window.dispatchEvent(new Event("iow:camera"));
     });
 
@@ -230,7 +248,14 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
       return;
     }
     const b = boundsOf(map, selected);
-    if (b) map.fitBounds(b, { padding: panelPadding(true), maxZoom: 6.4, pitch: narrow() ? 20 : 30, duration: dur(1300), easing: easeOutQuart });
+    if (b)
+      map.fitBounds(b, {
+        padding: panelPadding(true),
+        maxZoom: 6.4,
+        pitch: narrow() ? 20 : 30,
+        duration: dur(1300),
+        easing: easeOutQuart,
+      });
   }, [selected]);
 
   // Declared after the selection effect on purpose: a city inside a selected state flies to the city, not the state.
@@ -243,11 +268,17 @@ export function MapView({ selected, lit, names, fly, onSelect }: Props) {
       return;
     }
     stopDriftRef.current();
-    pin.current ??= new maplibregl.Marker({ element: Object.assign(document.createElement("div"), { className: "pin" }) });
+    pin.current ??= new maplibregl.Marker({
+      element: Object.assign(document.createElement("div"), { className: "pin" }),
+    });
     pin.current.setLngLat([fly.lng, fly.lat]).addTo(map);
     map.flyTo({
-      center: [fly.lng, fly.lat], zoom: fly.zoom, pitch: narrow() ? 20 : 30,
-      padding: panelPadding(true), duration: dur(1800), easing: easeOutQuart,
+      center: [fly.lng, fly.lat],
+      zoom: fly.zoom,
+      pitch: narrow() ? 20 : 30,
+      padding: panelPadding(true),
+      duration: dur(1800),
+      easing: easeOutQuart,
     });
   }, [fly]);
 

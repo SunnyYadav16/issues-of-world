@@ -1,12 +1,24 @@
 import { useEffect, useRef } from "react";
 import { skyOffset } from "./skyOffset";
 
-type Star = { x: number; y: number; depth: number; r: number; alpha: number; phase: number; speed: number; twinkle: boolean; warm: boolean; bright: boolean };
+type Star = {
+  x: number;
+  y: number;
+  depth: number;
+  r: number;
+  alpha: number;
+  phase: number;
+  speed: number;
+  twinkle: boolean;
+  warm: boolean;
+  bright: boolean;
+};
 
 function rng(seed: number) {
   // mulberry32: same sky on every load and resize
   return () => {
-    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
     let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -42,12 +54,17 @@ export function Starfield() {
     const ctx = canvas.getContext("2d")!;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let stars: Star[] = [];
-    let w = 0, h = 0, raf = 0, last = 0;
+    let w = 0,
+      h = 0,
+      raf = 0,
+      last = 0;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth; h = window.innerHeight;
-      canvas.width = w * dpr; canvas.height = h * dpr;
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       stars = makeStars(w, h);
       draw(performance.now());
@@ -88,11 +105,14 @@ export function Starfield() {
     window.addEventListener("resize", resize);
     const onPref = () => {
       cancelAnimationFrame(raf);
-      if (reduce.matches) draw(performance.now()); else raf = requestAnimationFrame(loop);
+      if (reduce.matches) draw(performance.now());
+      else raf = requestAnimationFrame(loop);
     };
     reduce.addEventListener("change", onPref);
     // Reduced motion draws once; camera moves still need a redraw so the sky stays coherent.
-    const still = () => { if (reduce.matches) draw(performance.now()); };
+    const still = () => {
+      if (reduce.matches) draw(performance.now());
+    };
     window.addEventListener("iow:camera", still);
 
     return () => {

@@ -5,7 +5,14 @@ import { mentions } from "../lib/places";
 import { ago } from "../lib/time";
 
 type Tab = "city" | "state" | "national";
-type Props = { state: StateSummary; city: string | null; open: boolean; focusOnOpen: boolean; updatedAt: string; onClose: () => void };
+type Props = {
+  state: StateSummary;
+  city: string | null;
+  open: boolean;
+  focusOnOpen: boolean;
+  updatedAt: string;
+  onClose: () => void;
+};
 type Load = { iso: string; cards: Card[] | "error" };
 
 export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose }: Props) {
@@ -39,7 +46,8 @@ export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose 
 
   // Ignore a result that belongs to what was shown before while the new one loads.
   const fetched = loaded?.iso === loadIso ? loaded.cards : null;
-  const cards = Array.isArray(fetched) && tab === "city" && city ? fetched.filter((c) => mentions(c.headline, city)) : fetched;
+  const cards =
+    Array.isArray(fetched) && tab === "city" && city ? fetched.filter((c) => mentions(c.headline, city)) : fetched;
   const count = Array.isArray(cards) ? cards.length : null;
   const tabLabel = (t: Tab) => (t === "city" ? city : t === "state" ? state.name : "India: national");
   const title = city ?? state.name;
@@ -48,9 +56,15 @@ export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose 
     <aside className="panel" data-open={open} inert={!open} aria-label={`${title} headlines`}>
       <header className="panel-head">
         <div>
-          <h2 ref={heading} tabIndex={-1}>{title}</h2>
+          <h2 ref={heading} tabIndex={-1}>
+            {title}
+          </h2>
           <p className="panel-meta">
-            {uncovered ? "No coverage yet" : count === null ? "Loading" : `${count} ${count === 1 ? "headline" : "headlines"}`}
+            {uncovered
+              ? "No coverage yet"
+              : count === null
+                ? "Loading"
+                : `${count} ${count === 1 ? "headline" : "headlines"}`}
             {!uncovered && <span className="panel-updated">Updated {ago(updatedAt)}</span>}
             {city && <span className="panel-updated">in {state.name}</span>}
           </p>
@@ -74,7 +88,10 @@ export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose 
         {uncovered && (
           <div className="notice">
             <strong>No news for {state.name} yet.</strong>
-            <span>Stories are read from Indian coverage only, so the globe can fly anywhere but only India has headlines. Try an Indian state or city.</span>
+            <span>
+              Stories are read from Indian coverage only, so the globe can fly anywhere but only India has headlines.
+              Try an Indian state or city.
+            </span>
           </div>
         )}
         {!uncovered && cards === null && (
@@ -100,8 +117,8 @@ export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose 
               {tab === "city"
                 ? `No headline in the latest fetch names ${city}.`
                 : national || tab === "national"
-                ? "Nothing in the latest fetch was national."
-                : "Nothing in the latest fetch was placed here. Automatic placement sometimes files a state's stories under its neighbour."}
+                  ? "Nothing in the latest fetch was national."
+                  : "Nothing in the latest fetch was placed here. Automatic placement sometimes files a state's stories under its neighbour."}
             </span>
             {tab === "city" && (
               <button type="button" className="notice-action" onClick={() => setChoice({ place, tab: "state" })}>
@@ -131,11 +148,13 @@ export function StatePanel({ state, city, open, focusOnOpen, updatedAt, onClose 
         )}
       </div>
 
-      {!uncovered && <footer className="panel-foot">
-        {national || tab === "national"
-          ? "Stories land here when the headline names no state, or names several. That is a keyword rule and can be wrong."
-          : "Placement is automatic, from GDELT location tags and place names in the headline, and can be wrong."}
-      </footer>}
+      {!uncovered && (
+        <footer className="panel-foot">
+          {national || tab === "national"
+            ? "Stories land here when the headline names no state, or names several. That is a keyword rule and can be wrong."
+            : "Placement is automatic, from GDELT location tags and place names in the headline, and can be wrong."}
+        </footer>
+      )}
     </aside>
   );
 }

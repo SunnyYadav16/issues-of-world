@@ -56,7 +56,9 @@ export function SearchBox({ states, onPick }: Props) {
   const showList = open && term.length > 0;
   return (
     <div className="search" ref={root}>
-      <label className="sr-only" htmlFor={`${id}-input`}>Search a city, state or country</label>
+      <label className="sr-only" htmlFor={`${id}-input`}>
+        Search a city, state or country
+      </label>
       <MagnifyingGlass className="search-icon" size={16} weight="bold" aria-hidden="true" />
       <input
         id={`${id}-input`}
@@ -93,18 +95,33 @@ export function SearchBox({ states, onPick }: Props) {
       />
       <ul id={`${id}-list`} role="listbox" className="search-pop" hidden={!showList}>
         {results.map((r, i) => (
-          <li key={r.key} id={`${id}-${i}`} role="option" aria-selected={i === active} onPointerDown={(e) => e.preventDefault()} onClick={() => pick(r)}>
+          <li
+            key={r.key}
+            id={`${id}-${i}`}
+            role="option"
+            aria-selected={i === active}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => pick(r)}
+          >
             <span>{r.label}</span>
             <span className="search-detail">{r.detail}</span>
           </li>
         ))}
         {results.length === 0 && (
           <li className="search-empty" role="presentation">
-            {term.length < MIN_REMOTE ? "Keep typing…" : pending ? "Searching…" : settled?.failed ? "City search is unavailable. States still work." : "No matches"}
+            {term.length < MIN_REMOTE
+              ? "Keep typing…"
+              : pending
+                ? "Searching…"
+                : settled?.failed
+                  ? "City search is unavailable. States still work."
+                  : "No matches"}
           </li>
         )}
       </ul>
-      <div className="sr-only" role="status">{showList ? `${results.length} results` : ""}</div>
+      <div className="sr-only" role="status">
+        {showList ? `${results.length} results` : ""}
+      </div>
     </div>
   );
 }
