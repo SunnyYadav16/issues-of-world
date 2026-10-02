@@ -15,7 +15,7 @@ INDIA_ONLY = "1#India#IN#IN#20#77#IN"
 INDIA_GENERAL = "5#India (General)#IN#IN00#20#77#IN00"
 
 
-def row(locs, title="Flood hits city", url="https://www.hindustantimes.com/india-news/a", extras=None):
+def row(locs, title="Flood hits the city badly", url="https://www.hindustantimes.com/india-news/a", extras=None):
     cols = [""] * 27
     cols[1] = "20260929013000"
     cols[3] = "hindustantimes.com"
@@ -34,7 +34,10 @@ def test_indian_state_article_kept():
 
 
 def test_precise_publish_time_preferred():
-    extras = "<PAGE_TITLE>T</PAGE_TITLE><PAGE_PRECISEPUBTIMESTAMP>20260928151700</PAGE_PRECISEPUBTIMESTAMP>"
+    extras = (
+        "<PAGE_TITLE>Flood hits the city badly</PAGE_TITLE>"
+        "<PAGE_PRECISEPUBTIMESTAMP>20260928151700</PAGE_PRECISEPUBTIMESTAMP>"
+    )
     assert parse_row(row([MUMBAI], extras=extras)).published_at == datetime(2026, 9, 28, 15, 17, tzinfo=timezone.utc)
 
 
