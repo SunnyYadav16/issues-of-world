@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 
 import httpx
 import pytest
+from contract import assert_source_contract
 
 from iow.plugins.sources.gdelt import GdeltSource, batch_stamps, parse_row
 
@@ -83,7 +84,7 @@ def test_fetch_skips_404_and_parses_the_rest():
     src = GdeltSource(httpx.Client(transport=httpx.MockTransport(handler)))
     since = datetime(2026, 9, 29, 1, 7, tzinfo=timezone.utc)
     until = datetime(2026, 9, 29, 1, 20, tzinfo=timezone.utc)
-    items = list(src.fetch(since, until))
+    items = assert_source_contract("gdelt", src.fetch(since, until))
     assert [i.geo_hint for i in items] == ["IN16"]
 
 
