@@ -48,7 +48,10 @@
   tos_checked_at: 2026-10-02
   display_policy: headline_link
   attribution: Google Fact Check Tools (ClaimReview)
-  # Google APIs ToS (last modified 2021-11-09): no keeping cached copies longer than the cache header allows; required attributions must be shown; no scraping.
+  # Google APIs ToS (last modified 2021-11-09), section 5e "Prohibitions on Content": "Unless expressly permitted by the content owner or by applicable law,
+  # you will not ... Scrape, build databases, or otherwise create permanent copies of such content, or keep cached copies longer than permitted by the cache header;
+  # Copy, translate, modify, create a derivative work of, sell, lease, lend, convey, distribute, publicly display, or sublicense to any third party".
+  # This pipeline stores items and publishes static JSON, so read this clause before activating. Required attributions must also be shown.
   rate_limit: "none stated at https://developers.google.com/fact-check/tools/api"
   robots: "n/a: reached through the API, not crawled"
   active: false
@@ -121,6 +124,7 @@
   attribution: Bar & Bench
   # Terms say: "You may not copy, reproduce, republish, download, post, broadcast, transmit, make available to the public, or otherwise use content
   # on the Site for any purpose other than your own personal, non-commercial use"; anything else needs prior written permission from the publisher.
-  # They do not mention RSS feeds, automated access or scraping.
+  # The terms say the site "may be accessed via, but not limited to, the World Wide Web, PDA, mobile phone, digital television, and RSS feeds. These terms
+  # and conditions apply whenever you access the site, regardless of the devices you use", so the restriction covers RSS. Automated access and scraping are not mentioned.
   robots: "https://www.barandbench.com/robots.txt (read 2026-10-02): Allow: / for all agents; no RSS paths listed; no AI/TDM bot rules"
   active: false
