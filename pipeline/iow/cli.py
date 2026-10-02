@@ -4,15 +4,16 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from iow import store
+from iow.core.registry import load_source, source_ids
 from iow.evals import geoparse
-from iow.plugins.sources.gdelt import GdeltSource
 from iow.stages.export import export
 
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="iow")
     sub = p.add_subparsers(dest="cmd", required=True)
-    f = sub.add_parser("fetch", help="pull recent GDELT articles into the local store")
+    f = sub.add_parser("fetch", help="pull recent articles from the registered sources into the local store")
+    f.add_argument("--source", choices=source_ids(), help="one source ID (default: all registered)")
     f.add_argument("--hours", type=float, default=3)
     e = sub.add_parser("export", help="write static JSON for the web app")
     e.add_argument("--out", type=Path, required=True)
@@ -34,8 +35,9 @@ def main() -> None:
             r = geoparse.report(geoparse.load())
             print(f"wrote {geoparse.REPORTS / 'geoparse.md'} ({r['systems']['geo']['n']} rows scored)")
     elif args.cmd == "fetch":
-        added = store.append_new(GdeltSource().fetch(now - timedelta(hours=args.hours)))
-        print(f"stored {added} new items")
+        since = now - timedelta(hours=args.hours)
+        for source_id in [args.source] if args.source else source_ids():
+            print(f"{source_id}: stored {store.append_new(load_source(source_id).fetch(since))} new items")
     else:
         counts = export(store.read_all(), args.out, now)
         national = counts.pop("national")
