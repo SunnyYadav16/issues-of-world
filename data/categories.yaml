@@ -1,0 +1,104 @@
+# Category taxonomy (plan §3.5, IOW-010). v0.1 turns on 4; v0.5 turns on all 8 after the classifier passes its eval gate.
+# The include/exclude examples are drafted by Claude and not yet reviewed by a human.
+scope_note: >
+  Categories describe the topic of a story. They apply to national stories too: scope (national, state, local) is
+  decided separately by geoparsing (D-023) and never changes the category. An article can carry several labels,
+  with one primary.
+categories:
+  - id: crime
+    name: Crime & Public Safety
+    definition: Incidents, arrests, investigations, police action.
+    active_in: v0.1
+    include:
+      - Police arrest two men over a chain-snatching in Pune
+      - Investigation opened into a bank fraud worth Rs 40 crore
+      - Man killed in a road-rage attack, police register a case
+    exclude:
+      - High Court grants bail to the accused in the fraud case
+      - Government announces new police recruitment scheme
+      - Flood rescue teams save 200 villagers
+  - id: courts
+    name: Courts & Legal
+    definition: Criminal and civil cases, hearings, judgments.
+    active_in: v0.1
+    subtags: [criminal, civil, constitutional]
+    include:
+      - Supreme Court reserves its verdict on the electoral bonds petition
+      - Delhi High Court issues notice on a property dispute
+      - Sessions court sentences the accused to life imprisonment
+    exclude:
+      - Police arrest the suspect after a midnight raid
+      - Parliament passes the new criminal procedure bill
+      - Opposition leaders protest outside the court complex
+  - id: governance
+    name: Governance & Policy
+    definition: Government decisions, laws, schemes, administration.
+    active_in: v0.1
+    include:
+      - Cabinet approves a new rural housing scheme
+      - State assembly passes the anti-paper-leak bill
+      - Municipal corporation revises property tax rates
+    exclude:
+      - Court stays the state's new reservation law
+      - Voters queue up for the second phase of polling
+      - Heavy rain disrupts the municipal water supply
+  - id: disasters
+    name: Disasters & Environment
+    definition: Floods, heatwaves, cyclones, accidents, pollution.
+    active_in: v0.1
+    include:
+      - Cyclone warning issued for the Odisha coast
+      - Delhi air quality turns severe as stubble burning peaks
+      - Bridge collapse leaves six dead after heavy rain
+    exclude:
+      - Villagers block the highway demanding flood compensation
+      - Hospital reports a spike in dengue cases
+      - Government announces relief package for farmers
+  - id: protests
+    name: Protests & Unrest
+    definition: Demonstrations, strikes, communal tension.
+    active_in: v0.5
+    include:
+      - Farmers march to the state capital over crop prices
+      - Transport strike halts buses across the city
+      - Curfew imposed after communal clashes in the town
+    exclude:
+      - Police arrest the organiser of the rally
+      - Election commission announces polling dates
+      - Court hears a petition on the march route
+  - id: health
+    name: Health
+    definition: Outbreaks, hospitals, public health.
+    active_in: v0.5
+    include:
+      - Dengue cases rise sharply in Kolkata
+      - District hospital runs out of oxygen cylinders
+      - Health ministry launches a nationwide vaccination drive
+    exclude:
+      - Heatwave kills three labourers in Telangana
+      - Court orders a probe into the hospital fire
+      - Government cuts the health budget by ten percent
+  - id: economy
+    name: Economy & Infrastructure
+    definition: Jobs, prices, power, water, transport projects.
+    active_in: v0.5
+    include:
+      - Onion prices double in a week across Maharashtra
+      - Metro line extension approved for Bengaluru
+      - Power cuts hit industrial belt as coal stocks fall
+    exclude:
+      - Bridge collapse leaves six dead
+      - Opposition protests over the price rise
+      - Supreme Court hears a plea on toll rates
+  - id: elections
+    name: Elections
+    definition: State and local polls, campaigns, results.
+    active_in: v0.5
+    include:
+      - Phase two of the assembly election records 62 percent turnout
+      - Party releases its candidate list for the bypolls
+      - Counting begins for the municipal elections
+    exclude:
+      - Cabinet approves a new welfare scheme
+      - Court rejects a plea against the nomination
+      - Police detain protesters outside the party office
