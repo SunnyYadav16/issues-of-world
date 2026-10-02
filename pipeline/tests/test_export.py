@@ -78,7 +78,9 @@ def test_registry_beats_the_plugin_claim(tmp_path):
 
 
 def test_registry_is_what_grants_snippets(tmp_path):
-    reg = {"gdelt": Source(id="gdelt", tier=3, license_id="x", display_policy="snippet_20w", attribution="a")}
+    reg = {
+        "gdelt": Source(id="gdelt", tier=3, license_id="x", display_policy="snippet_20w", attribution="a", active=True)
+    }
     export([item(policy="headline_link", snippet="a b c")], tmp_path, NOW, reg)
     assert read(tmp_path, "mh", "issues.json")["issues"][0]["snippet"] == "a b c"
 
@@ -141,3 +143,12 @@ def test_unknown_code_is_rescued_by_a_named_place(tmp_path):
     items = [item(headline="Daman hotel fire", hint="IN32"), item("https://a.example/2", hint="IN32")]
     counts = export(items, tmp_path, NOW)
     assert counts["DH"] == 1 and sum(counts.values()) == 1  # the one with no named place is still dropped
+
+
+def test_inactive_source_is_dropped(tmp_path):
+    reg = {
+        "gdelt": Source(
+            id="gdelt", tier=3, license_id="x", display_policy="headline_link", attribution="a", active=False
+        )
+    }
+    assert sum(export([item()], tmp_path, NOW, sources=reg).values()) == 0

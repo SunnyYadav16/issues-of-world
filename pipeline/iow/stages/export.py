@@ -56,7 +56,7 @@ def export(
     placed: dict[str, dict[str, tuple[RawItem, DisplayPolicy, Scope]]] = {s.iso: {} for s in states} | {NATIONAL: {}}
     for it in items:
         source = registry.get(it.source_id)
-        if source is None or urlparse(it.url).scheme not in ("http", "https"):
+        if source is None or not source.active or urlparse(it.url).scheme not in ("http", "https"):
             continue
         state, scope = locate(it.headline, it.geo_hint)
         if state is None and scope != "national":
