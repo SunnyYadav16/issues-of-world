@@ -5,7 +5,6 @@ Not the DOC 2.0 API: that returns no location codes, and this slice needs GDELT'
 """
 
 import csv
-import html
 import io
 import re
 import zipfile
@@ -16,6 +15,7 @@ from datetime import datetime, timedelta, timezone
 import httpx
 
 from iow.core.contracts import RawItem
+from iow.core.headline import clean_headline
 
 BASE = "https://data.gdeltproject.org/gdeltv2/"
 NCOLS = 27
@@ -52,7 +52,7 @@ def parse_row(cols: list[str]) -> RawItem | None:
     if not adm1 or not adm1.startswith("IN") or adm1 == "IN00":
         return None
     m = TITLE.search(cols[COL_EXTRAS])
-    headline = html.unescape(m.group(1)).strip() if m else ""
+    headline = clean_headline(m.group(1)) if m else None
     if not headline:
         return None
     pub = PUBTS.search(cols[COL_EXTRAS])
