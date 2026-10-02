@@ -12,7 +12,12 @@ iow = "iow.cli:main"
 gdelt = "iow.plugins.sources.gdelt:GdeltSource"
 
 [dependency-groups]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = [
+    "pre-commit>=4.6.2",
+    "pyright>=1.1.414",
+    "pytest>=8",
+    "ruff>=0.6",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -29,3 +34,9 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.pyright]
+typeCheckingMode = "basic"
+pythonVersion = "3.12"
+include = ["iow", "tests"]
+extraPaths = ["tests"]

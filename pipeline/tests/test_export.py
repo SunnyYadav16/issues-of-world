@@ -2,7 +2,7 @@
 import json
 from datetime import datetime, timedelta, timezone
 
-from iow.core.contracts import RawItem
+from iow.core.contracts import DisplayPolicy, RawItem
 from iow.core.sources import Source
 from iow.stages.export import card, export, outlet
 
@@ -10,7 +10,12 @@ NOW = datetime(2026, 9, 29, tzinfo=timezone.utc)
 
 
 def item(
-    url="https://www.thehindu.com/a", hint="IN16", policy="headline_link", snippet=None, age_h=1, headline="Headline"
+    url="https://www.thehindu.com/a",
+    hint: str | None = "IN16",
+    policy: DisplayPolicy = "headline_link",
+    snippet=None,
+    age_h=1,
+    headline="Headline",
 ):
     return RawItem(
         source_id="gdelt",
