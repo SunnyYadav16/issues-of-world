@@ -1,9 +1,130 @@
-# data/sources.yaml
 # License registry (plan §7.3, IOW-011). The exporter takes display_policy from HERE, never from the plugin,
-# so a plugin cannot loosen its own display rules by mistake. A source missing from this file is not exported.
-# tos_url / tos_checked_at are left out until someone has actually read each source's terms (IOW-011).
+# so a plugin cannot loosen its own display rules by mistake. A source missing from this file is not exported,
+# and neither is one with `active: false`.
+#
+# active: true means a plugin exists AND the terms were read. Every active source must have every field set (tests enforce it).
+# tos_checked_at is the day Claude read the page. It is not legal review. Fields left empty mean the page could not be
+# fetched on 2026-10-02 (the fetch tool got HTTP 403, was blocked, or the guessed URL returned 404); read them by hand before activating.
 - id: gdelt
   tier: 3
   license_id: gdelt-terms
+  license_url: https://www.gdeltproject.org/about.html
+  tos_url: https://www.gdeltproject.org/about.html
+  tos_checked_at: 2026-10-02
   display_policy: headline_link
   attribution: GDELT Project
+  # Terms: "unlimited and unrestricted use for any academic, commercial, or governmental use of any kind without fee";
+  # any use or redistribution must cite the GDELT Project and link https://www.gdeltproject.org/.
+  rate_limit: "none stated at https://www.gdeltproject.org/about.html"
+  # The pipeline reads data.gdeltproject.org, whose /robots.txt returns 404 (no rules). The www host's robots.txt disallows /data/ for all agents.
+  robots: "data.gdeltproject.org/robots.txt: 404, no rules; www.gdeltproject.org/robots.txt disallows /data/ for all agents; no AI/TDM bot rules"
+  active: true
+
+- id: pib
+  tier: 1
+  license_id: pib-terms
+  display_policy: headline_link
+  attribution: Press Information Bureau, Government of India
+  # pib.gov.in/RssMain.aspx and /robots.txt returned HTTP 403 to the fetch tool.
+  active: false
+
+- id: reliefweb
+  tier: 1
+  license_id: reliefweb-terms
+  tos_url: https://apidoc.reliefweb.int/
+  tos_checked_at: 2026-10-02
+  display_policy: headline_link
+  attribution: ReliefWeb (UN OCHA)
+  # API docs: anyone can use the API, no fees; respect the intellectual property rights of the original source (content may be copyrighted by it);
+  # a pre-approved appname is required (IOW-006 done). reliefweb.int/terms-conditions and /robots.txt returned HTTP 403.
+  rate_limit: "1000 calls per day, 1000 entries per call (https://apidoc.reliefweb.int/)"
+  active: false
+
+- id: google-factcheck
+  tier: 1
+  license_id: google-apis-terms
+  license_url: https://developers.google.com/terms/
+  tos_url: https://developers.google.com/terms/
+  tos_checked_at: 2026-10-02
+  display_policy: headline_link
+  attribution: Google Fact Check Tools (ClaimReview)
+  # Google APIs ToS (last modified 2021-11-09), section 5e "Prohibitions on Content": "Unless expressly permitted by the content owner or by applicable law,
+  # you will not ... Scrape, build databases, or otherwise create permanent copies of such content, or keep cached copies longer than permitted by the cache header;
+  # Copy, translate, modify, create a derivative work of, sell, lease, lend, convey, distribute, publicly display, or sublicense to any third party".
+  # This pipeline stores items and publishes static JSON, so read this clause before activating. Required attributions must also be shown.
+  rate_limit: "none stated at https://developers.google.com/fact-check/tools/api"
+  robots: "n/a: reached through the API, not crawled"
+  active: false
+
+- id: the-hindu
+  tier: 2
+  license_id: the-hindu-terms
+  display_policy: headline_link
+  attribution: The Hindu
+  # www.thehindu.com robots.txt and terms were blocked for the fetch tool.
+  active: false
+
+- id: indian-express
+  tier: 2
+  license_id: indian-express-terms
+  display_policy: headline_link
+  attribution: The Indian Express
+  # indianexpress.com robots.txt and terms were blocked for the fetch tool.
+  active: false
+
+- id: hindustan-times
+  tier: 2
+  license_id: hindustan-times-terms
+  display_policy: headline_link
+  attribution: Hindustan Times
+  # www.hindustantimes.com robots.txt and terms were blocked for the fetch tool.
+  active: false
+
+- id: scroll
+  tier: 2
+  license_id: scroll-terms
+  display_policy: headline_link
+  attribution: Scroll.in
+  # https://scroll.in/terms-of-use returned 404 (URL guessed); find the real terms page.
+  robots: "https://scroll.in/robots.txt (read 2026-10-02): disallows /article/print/ and /newsrepublic/ for all agents; no RSS paths listed; no AI/TDM bot rules"
+  active: false
+
+- id: theprint
+  tier: 2
+  license_id: theprint-terms
+  display_policy: headline_link
+  attribution: ThePrint
+  # https://theprint.in/terms-and-conditions/ returned 404 (URL guessed); find the real terms page.
+  robots: "https://theprint.in/robots.txt (read 2026-10-02): general crawling allowed except search, parameter URLs and promotional categories; GPTBot and CCBot are blocked"
+  active: false
+
+- id: deccan-herald
+  tier: 2
+  license_id: deccan-herald-terms
+  display_policy: headline_link
+  attribution: Deccan Herald
+  # www.deccanherald.com robots.txt and terms returned HTTP 403 to the fetch tool.
+  active: false
+
+- id: livelaw
+  tier: 2
+  license_id: livelaw-terms
+  display_policy: headline_link
+  attribution: LiveLaw
+  # https://www.livelaw.in/terms-of-use returned 404 (URL guessed); find the real terms page.
+  robots: "https://www.livelaw.in/robots.txt (read 2026-10-02): general crawling allowed except admin areas, search pages and low-value paths; no RSS paths listed; no AI/TDM bot rules in the * section"
+  active: false
+
+- id: bar-and-bench
+  tier: 2
+  license_id: bar-and-bench-terms
+  tos_url: https://www.barandbench.com/terms-and-conditions
+  tos_checked_at: 2026-10-02
+  display_policy: headline_link
+  attribution: Bar & Bench
+  # Terms say: "You may not copy, reproduce, republish, download, post, broadcast, transmit, make available to the public, or otherwise use content
+  # on the Site for any purpose other than your own personal, non-commercial use"; anything else needs prior written permission from the publisher.
+  # The terms say the site "may be accessed via, but not limited to, the World Wide Web, PDA, mobile phone, digital television, and RSS feeds. These terms
+  # and conditions apply whenever you access the site, regardless of the devices you use", so the restriction covers RSS. Automated access and scraping are not mentioned.
+  robots: "https://www.barandbench.com/robots.txt (read 2026-10-02): Allow: / for all agents; no RSS paths listed; no AI/TDM bot rules"
+  active: false

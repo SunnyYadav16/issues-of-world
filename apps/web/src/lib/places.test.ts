@@ -8,7 +8,15 @@ const states = [
   { iso: "UK", lgd: 5, name: "Uttarakhand", aliases: [], count: 1 },
   { iso: "WB", lgd: 19, name: "West Bengal", aliases: ["Bengal"], count: 1 },
 ];
-const geo = (o: object) => ({ id: 1, name: "X", latitude: 1, longitude: 2, feature_code: "PPL", country_code: "IN", ...o });
+const geo = (o: object) => ({
+  id: 1,
+  name: "X",
+  latitude: 1,
+  longitude: 2,
+  feature_code: "PPL",
+  country_code: "IN",
+  ...o,
+});
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -47,7 +55,12 @@ test("places outside India are flown to but have no news", () => {
 });
 
 test("searchRemote sends the query and maps results", async () => {
-  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [geo({ name: "Pune", admin1: "Maharashtra" })] }) }));
+  vi.stubGlobal(
+    "fetch",
+    vi
+      .fn()
+      .mockResolvedValue({ ok: true, json: async () => ({ results: [geo({ name: "Pune", admin1: "Maharashtra" })] }) }),
+  );
   expect((await searchRemote("pune", states)).map((r) => r.label)).toEqual(["Pune"]);
   expect(String((fetch as ReturnType<typeof vi.fn>).mock.calls[0][0])).toContain("name=pune");
 });

@@ -11,7 +11,6 @@ import { StatePanel } from "./panel/StatePanel";
 // maplibre-gl is most of the bundle; loading it lazily lets the shell and starfield paint first.
 const MapView = lazy(() => import("./map/MapView").then((m) => ({ default: m.MapView })));
 
-
 export default function App() {
   const [summary, setSummary] = useState<Summary>({ states: [], national: noNational, generatedAt: "" });
   const [selected, setSelected] = useState<number | null>(null);
@@ -32,9 +31,11 @@ export default function App() {
   }, []);
 
   const current =
-    selected === NATIONAL_LGD ? summary.national
-    : selected === UNCOVERED_LGD ? uncovered
-    : (summary.states.find((s) => s.lgd === selected) ?? null);
+    selected === NATIONAL_LGD
+      ? summary.national
+      : selected === UNCOVERED_LGD
+        ? uncovered
+        : (summary.states.find((s) => s.lgd === selected) ?? null);
   if (current && current !== display) setDisplay(current);
   if (current && city !== shownCity) setShownCity(city);
 
@@ -87,13 +88,34 @@ export default function App() {
           national={summary.national}
           selected={selected}
           buttonRef={listButton}
-          onPick={(lgd) => { setViaList(true); select(lgd); }}
+          onPick={(lgd) => {
+            setViaList(true);
+            select(lgd);
+          }}
         />
       </header>
       <Suspense fallback={null}>
-        <MapView selected={selected !== null && selected > 0 ? selected : null} lit={lit} names={names} fly={fly} onSelect={(lgd) => { setViaList(false); select(lgd); }} />
+        <MapView
+          selected={selected !== null && selected > 0 ? selected : null}
+          lit={lit}
+          names={names}
+          fly={fly}
+          onSelect={(lgd) => {
+            setViaList(false);
+            select(lgd);
+          }}
+        />
       </Suspense>
-      {display && <StatePanel state={display} city={shownCity} open={current !== null} focusOnOpen={viaList} updatedAt={summary.generatedAt} onClose={() => closeRef.current()} />}
+      {display && (
+        <StatePanel
+          state={display}
+          city={shownCity}
+          open={current !== null}
+          focusOnOpen={viaList}
+          updatedAt={summary.generatedAt}
+          onClose={() => closeRef.current()}
+        />
+      )}
       <div className="sr-only" role="status">
         {current ? `${current.name} selected` : ""}
       </div>

@@ -9,9 +9,22 @@ export type Target =
 
 export type Result = { key: string; label: string; detail: string; target: Target };
 
-type Geo = { id: number; name: string; latitude: number; longitude: number; feature_code: string; country_code: string; country?: string; admin1?: string };
+type Geo = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  feature_code: string;
+  country_code: string;
+  country?: string;
+  admin1?: string;
+};
 
-const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+const norm = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
 
 /** The state a geocoder's admin1 name refers to ("National Capital Territory of Delhi" -> Delhi). */
 export function matchState(admin1: string | undefined, states: StateSummary[]): StateSummary | undefined {
@@ -24,11 +37,19 @@ export function matchState(admin1: string | undefined, states: StateSummary[]): 
 export function searchLocal(q: string, states: StateSummary[]): Result[] {
   const n = norm(q);
   if (!n) return [];
-  const hit = (name: string) => norm(name).split(" ").some((w) => w.startsWith(n)) || norm(name).startsWith(n);
+  const hit = (name: string) =>
+    norm(name)
+      .split(" ")
+      .some((w) => w.startsWith(n)) || norm(name).startsWith(n);
   const out: Result[] = states
     .filter((s) => [s.name, ...(s.aliases ?? [])].some(hit))
     .slice(0, 5)
-    .map((s) => ({ key: `state-${s.lgd}`, label: s.name, detail: "State · India", target: { kind: "state", lgd: s.lgd } }));
+    .map((s) => ({
+      key: `state-${s.lgd}`,
+      label: s.name,
+      detail: "State · India",
+      target: { kind: "state", lgd: s.lgd },
+    }));
   if (hit("India") || hit("national")) {
     out.unshift({ key: "national", label: "India", detail: "Country · national news", target: { kind: "national" } });
   }
@@ -45,14 +66,24 @@ export function toResult(g: Geo, states: StateSummary[]): Result | null {
     const state = matchState(g.admin1, states);
     if (!state) return null;
     return {
-      key, label: g.name, detail: `City · ${state.name}`,
+      key,
+      label: g.name,
+      detail: `City · ${state.name}`,
       target: { kind: "city", lgd: state.lgd, city: g.name, lng: g.longitude, lat: g.latitude },
     };
   }
   const where = isCountry(g.feature_code) ? "Country" : [g.admin1, g.country].filter(Boolean).join(", ");
   return {
-    key, label: g.name, detail: where,
-    target: { kind: "uncovered", name: g.name, lng: g.longitude, lat: g.latitude, zoom: isCountry(g.feature_code) ? 4 : 8 },
+    key,
+    label: g.name,
+    detail: where,
+    target: {
+      kind: "uncovered",
+      name: g.name,
+      lng: g.longitude,
+      lat: g.latitude,
+      zoom: isCountry(g.feature_code) ? 4 : 8,
+    },
   };
 }
 
@@ -60,7 +91,10 @@ const GEOCODER = "https://geocoding-api.open-meteo.com/v1/search";
 
 /** Cities and countries worldwide. The query text leaves the browser for open-meteo.com (no key, no account). */
 export async function searchRemote(q: string, states: StateSummary[], signal?: AbortSignal): Promise<Result[]> {
-  const res = await fetch(`${GEOCODER}?${new URLSearchParams({ name: q, count: "6", language: "en", format: "json" })}`, { signal });
+  const res = await fetch(
+    `${GEOCODER}?${new URLSearchParams({ name: q, count: "6", language: "en", format: "json" })}`,
+    { signal },
+  );
   if (!res.ok) throw new Error(`geocoder: HTTP ${res.status}`);
   const { results = [] } = (await res.json()) as { results?: Geo[] };
   return results.flatMap((g) => toResult(g, states) ?? []);

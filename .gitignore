@@ -242,3 +242,7 @@ tiles/*.parquet
 .DS_Store
 node_modules/
 .impeccable/review/
+
+# Generated eval reports (iow eval writes here); the folder itself is tracked
+evals/reports/*
+!evals/reports/.gitkeep

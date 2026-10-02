@@ -56,7 +56,13 @@ export function nightStyle(): StyleSpecification {
         source: "relief",
         paint: { "raster-opacity": 0.3, "raster-saturation": -1, "raster-brightness-max": 0.2, "raster-contrast": 0.2 },
       },
-      { id: "ocean", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#060d16" } },
+      {
+        id: "ocean",
+        type: "fill",
+        source: "openmaptiles",
+        "source-layer": "water",
+        paint: { "fill-color": "#060d16" },
+      },
       // City lights are dots only. No place names, so nothing on the basemap can label a disputed area.
       {
         id: "cities-halo",
@@ -84,7 +90,15 @@ export function nightStyle(): StyleSpecification {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 0.7, 5, 2.2],
         },
       },
-      { id: FILL, type: "fill", ...stateLayer, paint: { "fill-color": AMBER, "fill-opacity": ["+", idle(0.17, 0.06), ["*", num("hover"), 0.16], ["*", num("sel"), 0.22]] } },
+      {
+        id: FILL,
+        type: "fill",
+        ...stateLayer,
+        paint: {
+          "fill-color": AMBER,
+          "fill-opacity": ["+", idle(0.17, 0.06), ["*", num("hover"), 0.16], ["*", num("sel"), 0.22]],
+        },
+      },
       {
         id: "in-glow",
         type: "line",

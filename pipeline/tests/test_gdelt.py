@@ -7,6 +7,7 @@ import httpx
 import pytest
 from contract import assert_source_contract
 
+from iow.core.contracts import RawItem
 from iow.plugins.sources.gdelt import GdeltSource, batch_stamps, parse_row
 
 MUMBAI = "4#Mumbai, Maharashtra, India#IN#IN16#19.0#72.8#-2092174"
@@ -26,8 +27,14 @@ def row(locs, title="Flood hits the city badly", url="https://www.hindustantimes
     return cols
 
 
+def parsed(cols: list[str]) -> RawItem:
+    item = parse_row(cols)
+    assert item is not None
+    return item
+
+
 def test_indian_state_article_kept():
-    item = parse_row(row([MUMBAI, MUMBAI, DELHI], title="Rain &amp; floods hit Mumbai"))
+    item = parsed(row([MUMBAI, MUMBAI, DELHI], title="Rain &amp; floods hit Mumbai"))
     assert item.geo_hint == "IN16"
     assert item.headline == "Rain & floods hit Mumbai"
     assert item.source_id == "gdelt" and item.display_policy == "headline_link"
@@ -39,7 +46,7 @@ def test_precise_publish_time_preferred():
         "<PAGE_TITLE>Flood hits the city badly</PAGE_TITLE>"
         "<PAGE_PRECISEPUBTIMESTAMP>20260928151700</PAGE_PRECISEPUBTIMESTAMP>"
     )
-    assert parse_row(row([MUMBAI], extras=extras)).published_at == datetime(2026, 9, 28, 15, 17, tzinfo=timezone.utc)
+    assert parsed(row([MUMBAI], extras=extras)).published_at == datetime(2026, 9, 28, 15, 17, tzinfo=timezone.utc)
 
 
 def test_foreign_primary_location_dropped():
@@ -47,7 +54,7 @@ def test_foreign_primary_location_dropped():
 
 
 def test_tie_goes_to_first_seen():
-    assert parse_row(row([DELHI, NAGOYA])).geo_hint == "IN07"
+    assert parsed(row([DELHI, NAGOYA])).geo_hint == "IN07"
     assert parse_row(row([NAGOYA, DELHI])) is None
 
 

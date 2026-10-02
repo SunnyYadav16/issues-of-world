@@ -10,10 +10,13 @@ It is a corroboration engine, not a truth oracle: it reports how many independen
 
 ## Layout
 
-- `pipeline/`: Python ingestion and export
+- `pipeline/`: Python ingestion and export (`pipeline/iow/evals/` holds the eval code, run with `iow eval`)
 - `apps/web/`: Vite + React + MapLibre globe
 - `data/`: reference data (states, categories, sources)
 - `docs/`: decisions, data licenses
+- `evals/datasets/`: labeled gold sets; `evals/harness/`: eval code lives in `pipeline/iow/evals/`; `evals/reports/`: generated reports (untracked)
+- `db/migrations/`: numbered SQL migrations (empty until Postgres arrives, Week 4)
+- `.github/workflows/`: CI
 
 ## License
 

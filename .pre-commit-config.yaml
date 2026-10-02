@@ -1,0 +1,16 @@
+# Local hooks call the pinned ruff from pipeline/uv.lock, so there is one ruff version.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run --project pipeline ruff check pipeline
+        language: system
+        pass_filenames: false
+        files: ^pipeline/
+      - id: ruff-format
+        name: ruff format --check
+        entry: uv run --project pipeline ruff format --check pipeline
+        language: system
+        pass_filenames: false
+        files: ^pipeline/
