@@ -1,5 +1,7 @@
-# Category taxonomy (plan §3.5, IOW-010). v0.1 turns on 4; v0.5 turns on all 8 after the classifier passes its eval gate.
+# Category taxonomy (plan §3.5, IOW-010). v0.1 turns on 7 (the 4 from the plan plus world, technology and finance from
+# news-scrap-test); v0.5 turns on the rest after the classifier passes its eval gate.
 # The include/exclude examples are drafted by Claude and not yet reviewed by a human.
+# `keywords` / `subtag_keywords` are copied from news-scrap-test classify_article(); nothing reads them until IOW-116.
 scope_note: >
   Categories describe the topic of a story. They apply to national stories too: scope (national, state, local) is
   decided separately by geoparsing (D-023) and never changes the category. An article can carry several labels,
@@ -22,6 +24,12 @@ categories:
     definition: Criminal and civil cases, hearings, judgments.
     active_in: v0.1
     subtags: [criminal, civil, constitutional]
+    subtag_keywords:
+      criminal: [bail, fir, police, arrest, custody, murder, rape, assault, narcotics, ndps, cbi, ed custody,
+        money laundering, chargesheet, accused, remand, jail, prison, convict, criminal, homicide, penal code, ipc,
+        bns, uapa, pmla, extortion, cybercrime]
+      civil: [arbitration, contract, property, trademark, patent, copyright, defamation, insolvency, ibbi, nclt,
+        nclat, consumer forum, damages, injunction, civil suit, commercial dispute, tenancy, writ petition]
     include:
       - Supreme Court reserves its verdict on the electoral bonds petition
       - Delhi High Court issues notice on a property dispute
@@ -80,7 +88,7 @@ categories:
       - Government cuts the health budget by ten percent
   - id: economy
     name: Economy & Infrastructure
-    definition: Jobs, prices, power, water, transport projects.
+    definition: Jobs, prices, power, water, transport projects. Markets and banking are finance.
     active_in: v0.5
     include:
       - Onion prices double in a week across Maharashtra
@@ -102,3 +110,44 @@ categories:
       - Cabinet approves a new welfare scheme
       - Court rejects a plea against the nomination
       - Police detain protesters outside the party office
+  - id: world
+    name: World & Foreign Affairs
+    definition: Other countries, diplomacy, conflicts abroad, India's foreign relations.
+    active_in: v0.1
+    keywords: [israel, gaza, palestine, ukraine, russia, putin, biden, trump, white house, beijing, china, xi jinping,
+      taiwan, united nations, pentagon, iran, middle east, pakistan, bangladesh, sri lanka, london, uk parliament,
+      foreign policy, global economy, syria, yemen]
+    include:
+      - External affairs minister meets Chinese counterpart on border talks
+      - Ceasefire talks in Gaza stall again
+      - India abstains on UN resolution on Ukraine
+    exclude:
+      - Rupee falls against the dollar as oil prices rise
+      - Police arrest foreign national with forged visa in Goa
+      - Smartphone maker opens new factory in Noida
+  - id: technology
+    name: Technology
+    definition: Gadgets, software, telecom, the internet and the tech industry.
+    active_in: v0.1
+    include:
+      - New 5G smartphone launches in India under Rs 15,000
+      - Government notifies rules for AI-generated content labels
+      - Telecom operators raise mobile tariffs by 15 percent
+    exclude:
+      - Police bust a cyber-fraud gang in Jharkhand
+      - IT company shares fall after weak quarterly results
+      - Court hears petition on internet shutdown in the state
+  - id: finance
+    name: Finance & Markets
+    definition: Stock markets, banking, monetary policy, regulators such as RBI and SEBI.
+    active_in: v0.1
+    keywords: [sensex, nifty, stock market, shares, equity, bse, nse, ipo, mutual fund, rbi, repo rate, inflation, sebi,
+      forex, rupee, quarterly profit, dividend, yield, bullish, bearish, monetary policy]
+    include:
+      - Sensex closes 600 points higher on banking gains
+      - RBI keeps the repo rate unchanged at 6.5 percent
+      - SEBI tightens rules for small-company IPOs
+    exclude:
+      - Onion prices double in a week across Maharashtra
+      - Metro line extension approved for Bengaluru
+      - ED arrests businessman in a money-laundering case

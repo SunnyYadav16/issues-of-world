@@ -2,6 +2,10 @@
 # so a plugin cannot loosen its own display rules by mistake. A source missing from this file is not exported,
 # and neither is one with `active: false`.
 #
+# tier = who publishes it (1 official, 2 established outlet incl. independent media, 3 aggregator).
+# genre = what kind of feed it is (top, world, business, technology, legal, governance), from news-scrap-test.
+# Add a source: one entry here (plus a logo via scripts/fetch_logos.py). Remove: delete it, or set active: false to pause.
+#
 # active: true means a plugin exists AND the terms were read. Every active source must have every field set (tests enforce it).
 # tos_checked_at is the day Claude read the page. It is not legal review. Fields left empty mean the page could not be
 # fetched on 2026-10-02 (the fetch tool got HTTP 403, was blocked, or the guessed URL returned 404); read them by hand before activating.
@@ -27,6 +31,12 @@
   attribution: Press Information Bureau, Government of India
   # pib.gov.in/RssMain.aspx and /robots.txt returned HTTP 403 to the fetch tool.
   active: false
+  genre: governance
+  feed_url: "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
+  homepage_url: "https://pib.gov.in"
+  logo_url: "https://pib.gov.in/WriteReadData/userfiles/image/pib_logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: ["#form1 table", ".content-area", "#MainContent"]
 
 - id: reliefweb
   tier: 1
@@ -63,6 +73,12 @@
   attribution: The Hindu
   # www.thehindu.com robots.txt and terms were blocked for the fetch tool.
   active: false
+  genre: top
+  feed_url: "https://www.thehindu.com/news/national/feeder/default.rss"
+  homepage_url: "https://www.thehindu.com"
+  logo_url: "https://www.thehindu.com/theme/images/th-online/logo.png"
+  logo: logos/the-hindu.webp
+  selectors: [".article-body-content-container", ".article__content", ".article-text"]
 
 - id: indian-express
   tier: 2
@@ -71,6 +87,12 @@
   attribution: The Indian Express
   # indianexpress.com robots.txt and terms were blocked for the fetch tool.
   active: false
+  genre: top
+  feed_url: "https://indianexpress.com/section/india/feed/"
+  homepage_url: "https://indianexpress.com"
+  logo_url: "https://indianexpress.com/wp-content/themes/indianexpress/images/indian-express-logo-n.svg"
+  logo: logos/indian-express.svg
+  selectors: [".story-details", ".m-story-content__body", "#story-body"]
 
 - id: hindustan-times
   tier: 2
@@ -79,6 +101,12 @@
   attribution: Hindustan Times
   # www.hindustantimes.com robots.txt and terms were blocked for the fetch tool.
   active: false
+  genre: top
+  feed_url: "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml"
+  homepage_url: "https://www.hindustantimes.com"
+  logo_url: "https://www.hindustantimes.com/images/app-images/ht-logo.png"
+  logo: logos/hindustan-times.png
+  selectors: [".detail", ".storyParagraph", ".storyDetails"]
 
 - id: scroll
   tier: 2
@@ -88,6 +116,12 @@
   # https://scroll.in/terms-of-use returned 404 (URL guessed); find the real terms page.
   robots: "https://scroll.in/robots.txt (read 2026-10-02): disallows /article/print/ and /newsrepublic/ for all agents; no RSS paths listed; no AI/TDM bot rules"
   active: false
+  genre: governance
+  feed_url: "http://feeds.feedburner.com/ScrollinArticles.rss"
+  homepage_url: "https://scroll.in"
+  logo_url: "https://scroll.in/static/images/brand/scroll-logo-black.svg"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".article-content", "#article-contents", ".story-detail"]
 
 - id: theprint
   tier: 2
@@ -128,3 +162,265 @@
   # and conditions apply whenever you access the site, regardless of the devices you use", so the restriction covers RSS. Automated access and scraping are not mentioned.
   robots: "https://www.barandbench.com/robots.txt (read 2026-10-02): Allow: / for all agents; no RSS paths listed; no AI/TDM bot rules"
   active: false
+
+# Feeds copied from news-scrap-test (config.py) on 2026-10-03. Terms not read yet, so all inactive.
+- id: indian-express-world
+  tier: 2
+  license_id: indian-express-world-terms
+  display_policy: headline_link
+  attribution: "The Indian Express"
+  active: false
+  genre: world
+  feed_url: "https://indianexpress.com/section/world/feed/"
+  homepage_url: "https://indianexpress.com"
+  logo_url: "https://indianexpress.com/wp-content/themes/indianexpress/images/indian-express-logo-n.svg"
+  logo: logos/indian-express.svg
+  selectors: [".story-details", ".m-story-content__body", "#story-body"]
+
+- id: the-hindu-world
+  tier: 2
+  license_id: the-hindu-world-terms
+  display_policy: headline_link
+  attribution: "The Hindu"
+  active: false
+  genre: world
+  feed_url: "https://www.thehindu.com/news/international/feeder/default.rss"
+  homepage_url: "https://www.thehindu.com"
+  logo_url: "https://www.thehindu.com/theme/images/th-online/logo.png"
+  logo: logos/the-hindu.webp
+  selectors: [".article-body-content-container", ".article__content", ".article-text"]
+
+- id: free-press-journal
+  tier: 2
+  license_id: free-press-journal-terms
+  display_policy: headline_link
+  attribution: "Free Press Journal"
+  active: false
+  genre: top
+  feed_url: "https://www.freepressjournal.in/stories.rss"
+  homepage_url: "https://www.freepressjournal.in"
+  logo_url: "https://fea.assettype.com/freepressjournal/assets/logo-600x60.png"
+  logo: logos/free-press-journal.png
+  selectors: [".story-element-text", ".story-content", ".content", "article"]
+
+- id: times-of-india
+  tier: 2
+  license_id: times-of-india-terms
+  display_policy: headline_link
+  attribution: "The Times of India"
+  active: false
+  genre: top
+  feed_url: "https://timesofindia.indiatimes.com/rssfeedstopstories.cms"
+  homepage_url: "https://timesofindia.indiatimes.com"
+  logo_url: "https://static.toiimg.com/photo/msid-58124960/TOI-logo.jpg"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: ["._s30J", ".main-content", ".article-content"]
+
+- id: ndtv
+  tier: 2
+  license_id: ndtv-terms
+  display_policy: headline_link
+  attribution: "NDTV"
+  active: false
+  genre: top
+  feed_url: "https://feeds.feedburner.com/ndtvnews-india-news"
+  homepage_url: "https://www.ndtv.com"
+  logo_url: "https://drop.ndtv.com/homepage/ndtv_news_logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: ["#ins_storybody", ".sp-cn", ".story__content"]
+
+- id: mint-markets
+  tier: 2
+  license_id: mint-markets-terms
+  display_policy: headline_link
+  attribution: "Mint"
+  active: false
+  genre: business
+  feed_url: "https://www.livemint.com/rss/markets"
+  homepage_url: "https://www.livemint.com"
+  logo_url: "https://images.livemint.com/img/static/livemint-logo.svg"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".contentSec", ".mainArea", ".storyPage"]
+
+- id: business-standard-markets
+  tier: 2
+  license_id: business-standard-markets-terms
+  display_policy: headline_link
+  attribution: "Business Standard"
+  active: false
+  genre: business
+  feed_url: "https://www.business-standard.com/rss/markets-106.rss"
+  homepage_url: "https://www.business-standard.com"
+  logo_url: "https://bsmedia.business-standard.com/include/_mod/site/html5/images/business-standard-logo.png"
+  logo: logos/business-standard.png
+  selectors: [".story-content", ".article-content"]
+
+- id: economic-times-markets
+  tier: 2
+  license_id: economic-times-markets-terms
+  display_policy: headline_link
+  attribution: "The Economic Times"
+  active: false
+  genre: business
+  feed_url: "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms"
+  homepage_url: "https://economictimes.indiatimes.com"
+  logo_url: "https://economictimes.indiatimes.com/photo/47529900.cms"
+  logo: logos/economic-times.jpg
+  selectors: [".artText", ".normal", ".article-body"]
+
+- id: business-today
+  tier: 2
+  license_id: business-today-terms
+  display_policy: headline_link
+  attribution: "Business Today"
+  active: false
+  genre: business
+  feed_url: "https://www.businesstoday.in/rss/latestnews.xml"
+  homepage_url: "https://www.businesstoday.in"
+  logo_url: "https://akm-img-a-in.tosshub.com/businesstoday/resource/img/logo.png"
+  logo: logos/business-today.png
+  selectors: [".story-with-main-sec", ".story-content", ".text-desc"]
+
+- id: ndtv-profit
+  tier: 2
+  license_id: ndtv-profit-terms
+  display_policy: headline_link
+  attribution: "NDTV Profit"
+  active: false
+  genre: business
+  feed_url: "https://feeds.feedburner.com/ndtvprofit-latest"
+  homepage_url: "https://www.ndtvprofit.com"
+  logo_url: "https://drop.ndtv.com/homepage/ndtv_news_logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".story__content", ".sp-cn"]
+
+- id: hindu-businessline-markets
+  tier: 2
+  license_id: hindu-businessline-markets-terms
+  display_policy: headline_link
+  attribution: "The Hindu BusinessLine"
+  active: false
+  genre: business
+  feed_url: "https://www.thehindubusinessline.com/markets/feeder/default.rss"
+  homepage_url: "https://www.thehindubusinessline.com"
+  logo_url: "https://www.thehindubusinessline.com/theme/images/bl-online/logo.png"
+  logo: logos/hindu-businessline.png
+  selectors: [".contentbody", "#ControlPara", ".article-main"]
+
+- id: moneycontrol
+  tier: 2
+  license_id: moneycontrol-terms
+  display_policy: headline_link
+  attribution: "Moneycontrol"
+  active: false
+  genre: business
+  feed_url: "https://www.moneycontrol.com/rss/latestnews.xml"
+  feed_status: dead  # newest item 2024-04-23 when read 2026-10-03 (news-scrap-test news.db)
+  homepage_url: "https://www.moneycontrol.com"
+  logo_url: "https://images.moneycontrol.com/static-mcnews/2020/04/moneycontrol-logo-620x435.jpg"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: ["#content_wrapper", ".article_desc", ".content"]
+
+- id: et-legalworld
+  tier: 2
+  license_id: et-legalworld-terms
+  display_policy: headline_link
+  attribution: "ETLegalWorld (The Economic Times)"
+  active: false
+  genre: legal
+  feed_url: "https://legal.economictimes.indiatimes.com/rss/recentstories"
+  homepage_url: "https://legal.economictimes.indiatimes.com"
+  logo_url: "https://economictimes.indiatimes.com/photo/47529900.cms"
+  logo: logos/economic-times.jpg
+  selectors: [".artText", ".article-body", ".content"]
+
+- id: et-legal-litigation
+  tier: 2
+  license_id: et-legal-litigation-terms
+  display_policy: headline_link
+  attribution: "ETLegalWorld (The Economic Times)"
+  active: false
+  genre: legal
+  feed_url: "https://legal.economictimes.indiatimes.com/rss/litigation"
+  homepage_url: "https://legal.economictimes.indiatimes.com"
+  logo_url: "https://economictimes.indiatimes.com/photo/47529900.cms"
+  logo: logos/economic-times.jpg
+  selectors: [".artText", ".article-body", ".content"]
+
+- id: verdictum
+  tier: 2
+  license_id: verdictum-terms
+  display_policy: headline_link
+  attribution: "Verdictum"
+  active: false
+  genre: legal
+  feed_url: "https://www.verdictum.in/feed"
+  homepage_url: "https://www.verdictum.in"
+  logo_url: "https://www.verdictum.in/assets/images/logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".article-content", ".content-inner"]
+
+- id: gadgets360
+  tier: 2
+  license_id: gadgets360-terms
+  display_policy: headline_link
+  attribution: "Gadgets 360"
+  active: false
+  genre: technology
+  feed_url: "https://feeds.feedburner.com/gadgets360-latest"
+  homepage_url: "https://gadgets360.com"
+  logo_url: "https://drop.ndtv.com/homepage/ndtv_news_logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".content_wrapper", ".story__content", ".fullstory"]
+
+- id: indian-express-tech
+  tier: 2
+  license_id: indian-express-tech-terms
+  display_policy: headline_link
+  attribution: "The Indian Express"
+  active: false
+  genre: technology
+  feed_url: "https://indianexpress.com/section/technology/feed/"
+  homepage_url: "https://indianexpress.com/section/technology/"
+  logo_url: "https://indianexpress.com/wp-content/themes/indianexpress/images/indian-express-logo-n.svg"
+  logo: logos/indian-express.svg
+  selectors: [".story-details", ".m-story-content__body", "#story-body"]
+
+- id: digit
+  tier: 2
+  license_id: digit-terms
+  display_policy: headline_link
+  attribution: "Digit"
+  active: false
+  genre: technology
+  feed_url: "https://www.digit.in/feed/"
+  homepage_url: "https://www.digit.in"
+  logo_url: "https://www.digit.in/images/digit_logo.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".article-text", ".body-content"]
+
+- id: india-today-tech
+  tier: 2
+  license_id: india-today-tech-terms
+  display_policy: headline_link
+  attribution: "India Today"
+  active: false
+  genre: technology
+  feed_url: "https://www.indiatoday.in/rss/1206578"
+  homepage_url: "https://www.indiatoday.in/technology"
+  logo_url: "https://akm-img-a-in.tosshub.com/indiatoday/images/misc/indiatoday-logo_170x85.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".story-with-main-sec", ".description", ".it-article-content"]
+
+- id: fonearena
+  tier: 2
+  license_id: fonearena-terms
+  display_policy: headline_link
+  attribution: "FoneArena"
+  active: false
+  genre: technology
+  feed_url: "https://www.fonearena.com/blog/feed/"
+  homepage_url: "https://www.fonearena.com"
+  logo_url: "https://www.fonearena.com/blog/wp-content/uploads/2017/04/fonearena-logo-300.png"
+  # logo: none; logo_url returned no image on 2026-10-03
+  selectors: [".post-content", ".entry-content"]
