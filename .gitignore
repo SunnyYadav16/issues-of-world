@@ -242,6 +242,8 @@ tiles/*.parquet
 .DS_Store
 node_modules/
 .impeccable/
+.superpowers/
+.claude/
 
 # Generated eval reports (iow eval writes here); the folder itself is tracked
 evals/reports/*
