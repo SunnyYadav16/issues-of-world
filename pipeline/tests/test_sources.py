@@ -118,3 +118,14 @@ def test_logo_files_exist():
 def test_unknown_keys_are_rejected():
     with pytest.raises(ValidationError):
         Source(**ROW, feed_ulr="https://typo.example/rss")  # pyright: ignore[reportCallIssue]
+
+
+# Sources whose terms pages could be read on 2026-10-03 (ThePrint's are behind a Cloudflare challenge)
+TERMS_READ = ["pib", "reliefweb", "the-hindu", "indian-express", "hindustan-times", "scroll", "deccan-herald"]
+
+
+def test_sources_with_terms_read_have_every_field():
+    sources = load_sources()
+    for source_id in TERMS_READ:
+        missing = [f for f in REQUIRED if not getattr(sources[source_id], f)]
+        assert not missing, f"{source_id} missing {missing}"

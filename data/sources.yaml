@@ -29,7 +29,15 @@
   license_id: pib-terms
   display_policy: headline_link
   attribution: Press Information Bureau, Government of India
-  # pib.gov.in/RssMain.aspx and /robots.txt returned HTTP 403 to the fetch tool.
+  # Copyright policy (Hindi page, read and translated by Claude): material on the site "may be reproduced free of charge and no prior permission is needed";
+  # permission should come from the department or copyright holder; reproduce accurately and "prominently acknowledge" the source wherever it is published or issued to others.
+  # The English version of the page was not retrieved (the 137_1 URL serves the same Hindi page). Terms of Use is only an accuracy and liability disclaimer; no clause on feeds or automated access.
+  # The feed answers HTTP 403 to an honest bot User-Agent and 200 to a browser one (tested 2026-10-02 and 2026-10-03).
+  license_url: https://www.pib.gov.in/content/137_2_CopyrightPolicy.aspx
+  tos_url: https://www.pib.gov.in/content/138_2_TermsofUse.aspx
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://www.pib.gov.in/content/138_2_TermsofUse.aspx"
+  robots: "https://pib.gov.in/robots.txt returns an error page (\"The Page you have requested is not available\"), so no robots rules are published"
   active: false
   genre: governance
   feed_url: "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
@@ -46,8 +54,10 @@
   display_policy: headline_link
   attribution: ReliefWeb (UN OCHA)
   # API docs: anyone can use the API, no fees; respect the intellectual property rights of the original source (content may be copyrighted by it);
-  # a pre-approved appname is required (IOW-006 done). reliefweb.int/terms-conditions and /robots.txt returned HTTP 403.
+# a pre-approved appname is required (IOW-006 done). reliefweb.int/terms-conditions and /robots.txt answer HTTP 202 (a bot challenge) to curl, so they are unread.
   rate_limit: "1000 calls per day, 1000 entries per call (https://apidoc.reliefweb.int/)"
+  license_url: https://apidoc.reliefweb.int/
+  robots: "n/a: reached through the API (api.reliefweb.int), not crawled; reliefweb.int/robots.txt is behind a bot challenge"
   active: false
 
 - id: google-factcheck
@@ -71,7 +81,14 @@
   license_id: the-hindu-terms
   display_policy: headline_link
   attribution: The Hindu
-  # www.thehindu.com robots.txt and terms were blocked for the fetch tool.
+  # Terms (THG Publishing): users are "prohibited from modifying, copying, distributing, transmitting, displaying, publishing, selling, licensing, creating derivative works or using any Content ... for commercial or public purposes";
+  # a limited licence is for personal use, and use of material is permitted "subject to due credit", for "non-commercial use and limited to personal or academic dissemination". RSS feed is listed as a covered service;
+  # the feeds page (https://www.thehindu.com/rssfeeds/) says clicking its RSS button means agreeing to its own T&C, whose text was not retrieved.
+  license_url: https://www.thehindugroup.com/termsofuse.html
+  tos_url: https://www.thehindugroup.com/termsofuse.html
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://www.thehindugroup.com/termsofuse.html"
+  robots: "https://www.thehindu.com/robots.txt (read 2026-10-03): * disallows only a few paths (/search/, /cgi-bin/, /news-service/ ...), feeder RSS URLs are listed as Sitemaps; GPTBot, ClaudeBot, CCBot and PerplexityBot are disallowed from /"
   active: false
   genre: top
   feed_url: "https://www.thehindu.com/news/national/feeder/default.rss"
@@ -85,7 +102,13 @@
   license_id: indian-express-terms
   display_policy: headline_link
   attribution: The Indian Express
-  # indianexpress.com robots.txt and terms were blocked for the fetch tool.
+  # Terms: content is "for your information and personal use only and may not be used, copied, reproduced, distributed, transmitted, broadcast, displayed, sold, licensed, or otherwise exploited for any other purposes whatsoever without the prior written consent of the respective owners".
+  # The terms also apply to "other digital products not limited to RDF Site Summary (RSS) fees, APIs and Software", so RSS use is covered.
+  license_url: https://indianexpress.com/terms-and-conditions/
+  tos_url: https://indianexpress.com/terms-and-conditions/
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://indianexpress.com/terms-and-conditions/"
+  robots: "https://indianexpress.com/robots.txt (read 2026-10-03): * is allowed everywhere except admin and a few template paths; ClaudeBot, Claude-Web and PerplexityBot are disallowed from /"
   active: false
   genre: top
   feed_url: "https://indianexpress.com/section/india/feed/"
@@ -99,7 +122,13 @@
   license_id: hindustan-times-terms
   display_policy: headline_link
   attribution: Hindustan Times
-  # www.hindustantimes.com robots.txt and terms were blocked for the fetch tool.
+  # Terms: "You shall not use any 'deep-link', 'page-scrape', 'robot', 'spider' or other automatic device, program, algorithm or methodology ... to access, acquire, copy or monitor any portion of the Platform/Website or any content";
+  # use of the platform must be personal and not commercial. The terms do not mention RSS (the two RSS mentions on the page are footer links).
+  license_url: https://www.hindustantimes.com/terms-of-use
+  tos_url: https://www.hindustantimes.com/terms-of-use
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://www.hindustantimes.com/terms-of-use"
+  robots: "https://www.hindustantimes.com/robots.txt (read 2026-10-03): no rules for User-agent *; rules exist only for named bots (Googlebot, Googlebot-News, Google-Extended, AdsBot-Google ...), which are kept out of /intfeeds/ and /feed-elections/"
   active: false
   genre: top
   feed_url: "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml"
@@ -113,8 +142,12 @@
   license_id: scroll-terms
   display_policy: headline_link
   attribution: Scroll.in
-  # https://scroll.in/terms-of-use returned 404 (URL guessed); find the real terms page.
-  robots: "https://scroll.in/robots.txt (read 2026-10-02): disallows /article/print/ and /newsrepublic/ for all agents; no RSS paths listed; no AI/TDM bot rules"
+  # Terms (https://scroll.in/terms, about 8,500 characters): cover subscriptions (personal use), user contributions and third-party links. No clause on reuse of content, RSS or automated access was found.
+  license_url: https://scroll.in/terms
+  tos_url: https://scroll.in/terms
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://scroll.in/terms"
+  robots: "https://scroll.in/robots.txt (read 2026-10-03): * disallows /article/print/ and /newsrepublic/; no rules for RSS; no AI-bot rules"
   active: false
   genre: governance
   feed_url: "http://feeds.feedburner.com/ScrollinArticles.rss"
@@ -128,7 +161,8 @@
   license_id: theprint-terms
   display_policy: headline_link
   attribution: ThePrint
-  # https://theprint.in/terms-and-conditions/ returned 404 (URL guessed); find the real terms page.
+  # theprint.in/terms-of-use/ and /feed/ both answer HTTP 200 with a Cloudflare "Just a moment..." page to curl and httpx (tried 2026-10-03),
+  # so the terms are unread and the feed cannot be fetched by a script. Read the terms in a browser.
   robots: "https://theprint.in/robots.txt (read 2026-10-02): general crawling allowed except search, parameter URLs and promotional categories; GPTBot and CCBot are blocked"
   active: false
 
@@ -137,7 +171,14 @@
   license_id: deccan-herald-terms
   display_policy: headline_link
   attribution: Deccan Herald
-  # www.deccanherald.com robots.txt and terms returned HTTP 403 to the fetch tool.
+  # Terms (TPML): "Use of content for data scraping, training artificial intelligence models, or automated text extraction is strictly prohibited unless expressly licensed by TPML."
+  # Also: "You shall not reproduce, modify, publish, store, distribute ... any TPML Content without our prior written consent." Allowed: sharing links and publishing up to five article summaries per day
+  # (up to 20 words verbatim or a 20-word abstract) with attribution and a hyperlink back. RSS feeds are named as an access mode covered by the terms. No feed URL is registered for this source yet.
+  license_url: https://www.deccanherald.com/terms
+  tos_url: https://www.deccanherald.com/terms
+  tos_checked_at: 2026-10-03
+  rate_limit: "none stated at https://www.deccanherald.com/terms"
+  robots: "https://www.deccanherald.com/robots.txt (read 2026-10-03): * is allowed except CMS paths (/includes/, /modules/, /scripts/ ...); GPTBot, ClaudeBot, CCBot, PerplexityBot and Google-Extended are disallowed from /"
   active: false
 
 - id: livelaw
