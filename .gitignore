@@ -241,7 +241,7 @@ tiles/*.parquet
 # OS / tooling noise
 .DS_Store
 node_modules/
-.impeccable/review/
+.impeccable/
 
 # Generated eval reports (iow eval writes here); the folder itself is tracked
 evals/reports/*
